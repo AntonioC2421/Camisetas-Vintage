@@ -1,0 +1,12 @@
+{% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
+
+{% block content %}
+<div class="container">
+    
+    {% for team in equi %}
+    {{team.name}}
+    {% endfor %}
+    
+</div>
+
+{% endblock %}
