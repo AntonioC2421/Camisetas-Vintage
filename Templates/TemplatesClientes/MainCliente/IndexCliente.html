@@ -32,6 +32,7 @@
         </div>
     </div>
     <div class="container-fluid">
+        <!--nombres de las ligas-->
         {% if category %}
         <ul class="categorias">
             {% for x in category %}
@@ -45,30 +46,36 @@
         {% endif %}
     </div>
     <hr>
-    <div class="container">
-        {% block content %}
-        {% if equipos %}
-        <div class="container SubTitulos">
-            <h4>NEWS</h4>
-        </div>
-        <img class="control prev" src="{% static 'imagenes/prev.png' %}" alt="">
-        <div class="slider">
-            {% for team in equipos %}
-            <div class="col-6 col-md-3" style="padding: 2px;">
-                <img src="{{ team.img.url }}" class="img-thumbnail w-100" style="width: 280px; height: 290px;">
-                <div class="container" style="font-size: 15px; text-align: center; padding: 3px">
-                    <p>{{team.name}}</p>
-                    <p>S/ {{team.precio}}</p>
-                </div>
+    
+        <div class="container">
+            
+            {% if equipos %}
+            <div class="container SubTitulos">
+                <h4>NEWS</h4>
             </div>
-            {% endfor %}
+            <img class="control prev" src="{% static 'imagenes/prev.png' %}">
+            <div class="slider">
+                {% for team in equipos %}
+                <div class="col-6 col-md-3" style="padding: 2px;">
+                    <img src="{{ team.img.url }}" class="img-thumbnail w-100" style="width: 280px; height: 290px;">
+                    <div class="container" style="font-size: 15px; text-align: center; padding: 3px">
+                        <p>{{team.name}}</p>
+                        <p>S/ {{team.precio}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <img class="control next" src="{% static 'imagenes/next.png' %}">
+
+            {% endif %}
+            
         </div>
-        <img class="control next" src="{% static 'imagenes/next.png' %}" alt="">
-        {% else %}
-        <p>NO HAY CAMISETAS</p>
-        {% endif %}
-        {% endblock %}
-    </div>
+        <div class="container-fluid d-flex">
+            {% block content %}
+       
+    {% endblock %}
+        </div>
+        
     <hr>
     <footer>
         <div class="container-fluid p-4">
@@ -81,7 +88,7 @@
             </div>
             <div class="container">
                 <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro" style="width: 115px; height: auto;">
-                <p><i> Visteté con Retro, a la mrd los comentarioS </i></p>
+                <p><i> Visteté con Retro, a la mrd los comentarios </i></p>
             </div>
         </div>
     </footer>
