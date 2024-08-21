@@ -1,0 +1,44 @@
+.MenúIzqu{
+    width: 25%;
+    border-right: solid rgba(122, 122, 122, 0.26) 1px;
+}
+.subtit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4px;
+}
+.MenúDere{
+    width: 75%;
+}
+
+.MenúDere .all{
+    display: block; text-align: center;
+}
+
+.cards .imgcards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards .imgcards img {
+    height: 380px; width: 360px;
+}
+
+.cards .descricards {
+    font-size: 20px;
+    text-align: center;
+    padding: 3px
+}
+
+.aviso{
+    border-radius: 5px;
+    align-content: center;
+    display: block;
+    height: 50px;
+}
+
+.aviso p{
+    margin: auto;
+}
