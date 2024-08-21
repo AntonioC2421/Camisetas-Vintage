@@ -2,35 +2,49 @@
 
 {% block content %}
 <div class="container" style="width: 25%; border-right: solid rgba(122, 122, 122, 0.26) 1px;">
-    <div class="container" style="display: flex; align-items: center; justify-content: center; padding-top: 4px;">
+    <div class="container pb-2" style="display: flex; align-items: center; justify-content: center; padding-top: 4px;">
         <h4>TEAMS</h4>
     </div>
     <div class="container">
+        {% if equi %}
         {% for team in equi %}
         <ul style="list-style: none; padding-left: 0;">
             <li style="text-align: left;">
-                <a href="#">{{ team.name }}</a>
+                <a href="">{{ team.name }}</a>
             </li>
         </ul>
         {% endfor %}
+        {% else %}
+        <h5>Null</h5>
+        {% endif %}
     </div>
 </div>
 
-<div class="container py-4 row" style="width: 75%;">
+<div class="container row" style="width: 75%;">
+    
+    <div class="container pb-2" style="display: flex; align-items: center; justify-content: center;">
+        <h4>ALL</h4>
+    </div>
     {% if camis %}
-        {% for cam in camis %}
-        <div class="col-lg-6" style="padding-bottom: 10px;">
-            <div class="container" style="display: flex; justify-content: center; align-items: center;">
-                <img src="{{ cam.img.url }}" style="height: 380px; width: 360px;">
+    {% for cam in camis %}
+        {% if idn == cam.id_SubCategoria.id_CategoriasCamisetas.id %}
+            <div class="col-lg-6 pb-4">
+                <div class="container" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="{{ cam.img.url }}" style="height: 380px; width: 360px;">
+                </div>
+                <div class="container" style="font-size: 20px; text-align: center; padding: 3px">
+                    <h6>{{ cam.name }}</h6>
+                    <h6>$ {{ cam.precio }}</h6>  
+                </div>
             </div>
-            <div class="container" style="font-size: 20px; text-align: center; padding: 3px">
-                <h6>{{ cam.name }}</h6>
-                <h6>$ {{ cam.precio }}</h6>
-            </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <p>No hay camisetas disponibles para este equipo.</p>
-    {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if not encontrado %}
+    <h6>null</h6>
+{% endif %}
+
+           
 </div>
 {% endblock %}

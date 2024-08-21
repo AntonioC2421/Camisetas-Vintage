@@ -23,7 +23,9 @@
     </header>
     <div class="container-fluid ImgAndOption d-flex">
         <div class="container d-flex" style="width: 70%;  justify-content: center; align-items: center;">
-            <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro" style="width: 200px; height: auto;">
+            <a href="{% url 'ViewsClient:MainPrincipalCliente' %}">
+                <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro" style="width: 200px; height: auto;">
+            </a>
         </div>
         <div class="container px-3 row" style="width: 30%; align-content: center;">
             <a class="col-lg-4 col-md-12 col-sm-12" href="">Cuenta</a>
@@ -46,36 +48,30 @@
         {% endif %}
     </div>
     <hr>
-    
-        <div class="container">
-            
-            {% if equipos %}
-            <div class="container SubTitulos">
-                <h4>NEWS</h4>
-            </div>
-            <img class="control prev" src="{% static 'imagenes/prev.png' %}">
-            <div class="slider">
-                {% for team in equipos %}
-                <div class="col-6 col-md-3" style="padding: 2px;">
-                    <img src="{{ team.img.url }}" class="img-thumbnail w-100" style="width: 280px; height: 290px;">
-                    <div class="container" style="font-size: 15px; text-align: center; padding: 3px">
-                        <p>{{team.name}}</p>
-                        <p>S/ {{team.precio}}</p>
-                    </div>
+    <div class="container">
+        {% if equipos %}
+        <div class="container SubTitulos">
+            <h4>NEWS</h4>
+        </div>
+        <img class="control prev" src="{% static 'imagenes/prev.png' %}">
+        <div class="slider">
+            {% for team in equipos %}
+            <div class="col-6 col-md-3" style="padding: 2px;">
+                <img src="{{ team.img.url }}" class="img-thumbnail w-100" style="width: 280px; height: 290px;">
+                <div class="container" style="font-size: 15px; text-align: center; padding: 3px">
+                    <p>{{team.name}}</p>
+                    <p>$ {{team.precio}}</p>
                 </div>
-                {% endfor %}
             </div>
-            <img class="control next" src="{% static 'imagenes/next.png' %}">
-
-            {% endif %}
-            
+            {% endfor %}
         </div>
-        <div class="container-fluid d-flex">
-            {% block content %}
-       
-    {% endblock %}
-        </div>
-        
+        <img class="control next" src="{% static 'imagenes/next.png' %}">
+        {% endif %}
+    </div>
+    <div class="container-fluid d-flex">
+        {% block content %}
+        {% endblock %}
+    </div>
     <hr>
     <footer>
         <div class="container-fluid p-4">
@@ -95,5 +91,4 @@
     <!-- Enlace al archivo JavaScript estático -->
     <script src="{% static 'js/IndexCliente.js' %}"></script>
 </body>
-
 </html>
