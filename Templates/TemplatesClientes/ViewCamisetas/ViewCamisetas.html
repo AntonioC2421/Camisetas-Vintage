@@ -10,7 +10,7 @@
         {% for team in equi %}
         <ul style="list-style: none; padding-left: 0;">
             <li style="text-align: left;">
-                <a href="">{{ team.name }}</a>
+                <a href="{% url 'ViewsClient:ViewsCamisetTeam' idn team.id %}">{{ team.name }}</a>
             </li>
         </ul>
         {% endfor %}
@@ -21,30 +21,25 @@
 </div>
 
 <div class="container row" style="width: 75%;">
-    
     <div class="container pb-2" style="display: flex; align-items: center; justify-content: center;">
         <h4>ALL</h4>
     </div>
     {% if camis %}
     {% for cam in camis %}
-        {% if idn == cam.id_SubCategoria.id_CategoriasCamisetas.id %}
-            <div class="col-lg-6 pb-4">
-                <div class="container" style="display: flex; justify-content: center; align-items: center;">
-                    <img src="{{ cam.img.url }}" style="height: 380px; width: 360px;">
-                </div>
-                <div class="container" style="font-size: 20px; text-align: center; padding: 3px">
-                    <h6>{{ cam.name }}</h6>
-                    <h6>$ {{ cam.precio }}</h6>  
-                </div>
+        <div class="col-lg-6 pb-4">
+            <div class="container" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{{ cam.img.url }}" style="height: 380px; width: 360px;">
             </div>
-        {% endif %}
+            <div class="container" style="font-size: 20px; text-align: center; padding: 3px">
+                <h6>{{ cam.name }}</h6>
+                <h6>$ {{ cam.precio }}</h6>  
+            </div>
+        </div>
     {% endfor %}
-{% endif %}
+    {% endif %}
 
-{% if not encontrado %}
+    {% if not encontrado %}
     <h6>null</h6>
-{% endif %}
-
-           
+    {% endif %}
 </div>
 {% endblock %}

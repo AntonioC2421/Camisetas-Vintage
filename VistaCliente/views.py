@@ -8,18 +8,14 @@ def MainPrincipalCliente(request):
     return render(request, './TemplatesClientes/MainCliente/IndexCliente.html',data)
 
 def ViewCamisetas(request, id=None, team_id=None):
-    Category = Categorias.objects.all()
-    SubCategory = SubCategoria.objects.filter(id_CategoriasCamisetas=id)
-    Equipo = Teams.objects.filter(id_SubCategoria__in=SubCategory)
+    Category = Categorias.objects.all() #solo para mostrar y seleccionarlos # La liga, Bundesliga ... (muestra las ligas)
+    SubCategory = SubCategoria.objects.filter(id_CategoriasCamisetas=id) #Real , Barcelona ... (Muestra los equipos de la Liga seleccionada)
+    Equipo = Teams.objects.filter(id_SubCategoria__in=SubCategory) #Camiseta Real madrid 2018 (más img) | (Muetra las camisetas (img/info) del equipo seleccionado)
 
     if team_id:
-        Equipo = Equipo.filter(id=team_id)
+        Equipo = Equipo.filter(id_SubCategoria=team_id) #Seleccionar una equipo y mostrar solo las camisetas de ese quipo
 
-    encontrado = False
-    for cam in Equipo:
-        if cam.id_SubCategoria.id_CategoriasCamisetas.id == id:
-            encontrado = True
-            break
+    encontrado = Equipo.exists() #si la liga tiene equipos dentro (true/false)
 
     data = {
         'equi': SubCategory,
@@ -27,5 +23,6 @@ def ViewCamisetas(request, id=None, team_id=None):
         'camis': Equipo,
         'encontrado': encontrado,
         'idn': id,
+        'selected_team_id': team_id,
     }
     return render(request, './TemplatesClientes/ViewCamisetas/ViewCamisetas.html', data)
