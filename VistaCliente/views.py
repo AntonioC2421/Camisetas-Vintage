@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from VistaAdmin.models import Categorias, SubCategoria,Teams,Size
+from VistaAdmin.models import Categorias, SubCategoria,Teams,Size,TeamsImgs,Marca,CodigoPromocional
 
 def MainPrincipalCliente(request):
     Category = Categorias.objects.all()
@@ -29,6 +29,10 @@ def ViewCamisetas(request, id=None, team_id=None):
 
 def DetalleCamiseta(request, id):
     Category = Categorias.objects.all()
+    DetallesImG = TeamsImgs.objects.filter(teams = id)
     Detalle = Teams.objects.filter(id = id)
-    data = {"deta" : Detalle , 'category': Category}
+    data1 = {'imgs':DetallesImG}
+    data2 = {'category': Category}
+    data3 = {"deta" : Detalle}
+    data = {**data1,**data2,**data3}
     return render(request, './TemplatesClientes/DetalleCamiseta/DetalleCamiseta.html',data)
