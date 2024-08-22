@@ -26,3 +26,9 @@ def ViewCamisetas(request, id=None, team_id=None):
         'selected_team_id': team_id,
     }
     return render(request, './TemplatesClientes/ViewCamisetas/ViewCamisetas.html', data)
+
+def DetalleCamiseta(request, id):
+    Category = Categorias.objects.all()
+    Detalle = Teams.objects.filter(id = id)
+    data = {"deta" : Detalle , 'category': Category}
+    return render(request, './TemplatesClientes/DetalleCamiseta/DetalleCamiseta.html',data)

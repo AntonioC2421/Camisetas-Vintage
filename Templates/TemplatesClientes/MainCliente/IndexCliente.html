@@ -59,8 +59,9 @@
             <div class="col-6 col-md-3" style="padding: 2px;">
                 <img src="{{ team.img.url }}" class="img-thumbnail w-100" style="width: 280px; height: 290px;">
                 <div class="container" style="font-size: 15px; text-align: center; padding: 3px">
-                    <p>{{team.name}}</p>
-                    <p>$ {{team.precio}}</p>
+                    <p><a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">{{team.name}}</a></p>
+                    <p>$ {{ team.precio|floatformat:0 }}</p>
+
                 </div>
             </div>
             {% endfor %}

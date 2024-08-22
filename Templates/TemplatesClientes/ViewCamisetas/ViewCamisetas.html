@@ -43,8 +43,8 @@
             <img src="{{ cam.img.url }}">
         </div>
         <div class="descricards container">
-            <h6>{{ cam.name }}</h6>
-            <h6>$ {{ cam.precio }}</h6>
+            <h6><a href="{% url 'ViewsClient:DetalleCamiseta' cam.id %}">{{cam.name}}</a></h6>
+            <h6>$ {{ cam.precio|floatformat:0 }}</h6>
         </div>
     </div>
     {% endfor %}

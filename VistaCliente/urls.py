@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.MainPrincipalCliente, name='MainPrincipalCliente'),
     path('ViewCamisetas/<int:id>/', views.ViewCamisetas, name='ViewsCamiset'),
     path('ViewCamisetas/<int:id>/<int:team_id>/', views.ViewCamisetas, name='ViewsCamisetTeam'),
+    path('DataCamiset/<int:id>' ,views.DetalleCamiseta, name="DetalleCamiseta"),
 ]

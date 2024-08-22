@@ -1,0 +1,36 @@
+{% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
+{% load static %}
+{% block content %}
+{% if deta %}
+{%for i in deta %}
+<div class="container" style="width: 20%;align-content: center; display: block;">
+    <img src="https://www.ernestojerardo.com/wp-content/uploads/2021/12/AL-1.jpeg" style="width: 200px; padding: 10px;">
+    <img src="https://www.ernestojerardo.com/wp-content/uploads/2021/12/AL-1.jpeg" style="width: 200px; padding: 10px;">
+    <img src="https://www.ernestojerardo.com/wp-content/uploads/2021/12/AL-1.jpeg" style="width: 200px; padding: 10px;">
+</div>
+<div class="container" style="width: 40%; padding: 10px;">
+    <img src="{{ i.img.url }}" width="100%">
+</div>
+<div class="container" style="width: 40%;">
+    <div class="container py-2">
+        <p style="font-size: 35px; font-family: Georgia, 'Times New Roman', Times, serif;">{{i.name}}</p>
+        <p style="font-size: 17px;">${{ i.precio|floatformat:0 }}</p>
+        <hr>
+    </div>
+    <div class="container">
+        <p>{{i.id_SubCategoria}}</p>
+        <p>{{i.year}}</p>
+        <p>Adidas</p> <!--AQUI FALTA LA MARCA QUE SE CREARA EN UNA TABLA-->
+        <div class="input-group input-group-sm mb-3">
+            <button class="input-group-text" id="inputGroup-sizing-sm">Canjear</button> <!--VALIDAR CODIGO Y PROCEDER CON EL DESCUENTO-->
+            <input type="text" class="form-control" placeholder="Código promocional" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="container"
+            style="border:  2px solid black; text-align: center; align-content: center; display: block; padding: 7px;">
+            <p style="margin: auto;">ADD TO CART</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
