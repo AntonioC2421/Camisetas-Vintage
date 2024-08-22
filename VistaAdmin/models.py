@@ -29,7 +29,7 @@ class CodigoPromocional(models.Model):
     vecesUso = models.IntegerField()
 
 class Teams(models.Model):
-    img = models.ImageField(upload_to='imgCamisetasVintage', blank=True, null=True)
+    img = models.ImageField(upload_to='imgCamisetasVintage/', blank=True, null=True) #falta ingresar mas imagenes
     name = models.CharField(max_length=100)
     year = models.IntegerField()
     precio = models.FloatField()
@@ -39,3 +39,11 @@ class Teams(models.Model):
 
     def __str__(self):
         return str(self.name) 
+    
+    
+class TeamsImgs(models.Model):
+    teams = models.ForeignKey(Teams, related_name='images', on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='imgCamisetasVintage/', blank=True, null=True)
+    
+    def __str__(self):
+        return f'Imagen de auto {self.teams.id}'
