@@ -1,7 +1,27 @@
+*{
+    font-family: monospace;
+    font-size: large;
+}
+
 header {
     text-align: center;
     color: aliceblue;
     background-color: rgb(0, 100, 158);
+}
+
+.conteMain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.conte {
+    margin-top: 250px;
+    z-index: 1;
 }
 
 a {
@@ -66,4 +86,41 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.conteMain .ImgAndOption .icoRetro{
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteMain .ImgAndOption .icoRetro img{
+    width: 200px;
+    height: auto;
+}
+
+.conteMain .ImgAndOption .bodyRetro {
+    width: 30%;
+    align-content: center;
+}
+
+.slider img{
+    width: 280px;
+    height: 290px;
+}
+
+.slider .container {
+    font-size: 15px;
+    text-align: center;
+    padding: 3px
+}
+
+footer .container-fluid .container{
+    justify-content:space-between;
+    align-items: center;
+}
+
+footer .container-fluid img{
+    width: 115px;
+    height: auto;
 }
