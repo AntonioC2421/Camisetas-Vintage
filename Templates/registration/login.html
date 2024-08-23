@@ -1,18 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
+    <style>
+        .login {
+            display: grid;
+            place-items: center;
+            width: 70vh;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<body>
-    <div class="container bg-info">
+
+<div class="container login">
+    <div class="container p-4" style="text-align: center;">
+        <h3>LOGIN</h3>
+        <p>Por favor ingrese su e-mail y contraseña</p>
+    </div>
+    <div class="container p-4">
         <form action="" method="post">
             {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Ingresar" class="btn btn-primary">
+            {{ form | crispy }}
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+                <hr>
+                <a style="display: grid; place-items: center; text-decoration: none;" href="">¿Olvidaste tu
+                    contraseña?</a>
+            </div>
         </form>
     </div>
-    
-</body>
-</html>
+</div>
+{% endblock %}

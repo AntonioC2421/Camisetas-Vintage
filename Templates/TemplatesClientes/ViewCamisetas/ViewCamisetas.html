@@ -5,10 +5,13 @@
     <link rel="stylesheet" href="{% static 'css/ViewCamisetas.css' %}">
 </head>
 <div class="container MenúIzqu">
+
     <div class="container subtit">
         <h4>TEAMS</h4>
     </div>
-    <div class="container">
+
+    <div class="container p-3">
+
         {% if equi %}
         <p><a href="{% url 'ViewsClient:ViewsCamiset' idn %}">ALL</a></p>
         {% for team in equi %}
@@ -23,10 +26,12 @@
             <p><i class="bi bi-info-square px-2"></i><i>Equipos no encontrados</i></p>
         </div>
         {% endif %}
+
     </div>
 </div>
 
 <div class="container MenúDere row">
+
     <div class="container all">
         <h4>ALL</h4>
         {% for i in equi %}
@@ -49,10 +54,12 @@
     </div>
     {% endfor %}
     {% endif %}
+
     {% if not encontrado %}
     <div class="container bg-info aviso">
         <p><i class="bi bi-info-square px-2"></i><i>Camisetas no encontradas</i></p>
     </div>
     {% endif %}
+
 </div>
 {% endblock %}
