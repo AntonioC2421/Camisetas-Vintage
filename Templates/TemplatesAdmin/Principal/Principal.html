@@ -6,89 +6,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Principal.css">
     <title>ViewAdmin</title>
-    <style>
-        a{
-            text-decoration: none;
-            color: black;
-        }
-        .opciones {
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-        .opciones li {
-            margin: 10px;
-            list-style: none;
-        }
-        .opciones a {
-            text-decoration: none;
-            padding: 2px 20px;
-            font-size: 15px;
-        }
-        .princi{
-            width: 80%;
-            justify-content: center;
-            align-items: center;
-        }
-        .datelogin{
-            width: 20%;
-            justify-content: center;
-            align-items: center;
-        }
-        .datelogin img{
-            height: 40px;
-            margin-right: 3px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/Principal.css' %}"> 
 </head>
 
 <body>
-
-    <div class="container-fluid d-flex">
-        <div class="container princi d-flex">
-            <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro" style="width: 100px;">
+    <nav class="navbar fixed-top" style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
+        <div class="container-fluid">
+            <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar"
+                aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <div class="container d-flex row  offcanvas-title" id="offcanvasDarkNavbarLabel" style="justify-content: center; align-items: center;">
+                        <img class="col-6" src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="100px">
+                        <h4 class="col-6" style="font-family: monospace;"><strong>Antonio Cotrina</strong></h4>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="container exit d-flex" style="justify-content:end;">
+                    <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}"><i class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesion</i></a>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Registro Camisetas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Publicar Camiseta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Reporte de Ventas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Registro Camisetas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contactos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Reporte de venta</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pedidos</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#">Pedidos Pendientes</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Pedidos Realizados</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-        <div class="container datelogin d-flex">
-            <!-- Aqui hacer que al presionar en la img o el nombre, se despliegue un menú que permita cerrar sesión -->
-            <img src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil">
-            <h6><strong>Antonio Cotrina</strong></h6>
-        </div>
-        <a href="{% url 'ViewsAdmin:exit' %}">cerrar</a>
-    </div>
-
-    <div class="container-fluid">
-        <ul class="opciones">
-            <li>
-                <a href="">Registro Camisetas</a>
-            </li>
-            <li>
-                <a href="">Publicar Camiseta</a>
-            </li>
-            <li>
-                <a href="">Reporte de Ventas</a>
-            </li>
-            <li>
-                <a href="">Códigos Promocionales</a>
-            </li>
-            <li>
-                <a href="">Contactos</a>
-            </li>
-            <li>
-                <a href="">Pedidos</a>
-            </li>
-        </ul>
-    </div>
-    <hr>
-    
-  
+    </nav>
 </body>
 
 </html>

@@ -5,31 +5,22 @@
 
 <head>
     <title>Login</title>
-    <style>
-        .login {
-            display: grid;
-            place-items: center;
-            width: 70vh;
-            border: 1px solid black;
-            border-radius: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 
 <div class="container login">
-    <div class="container p-4" style="text-align: center;">
+    <div class="container logintext p-4">
         <h3>LOGIN</h3>
         <p>Por favor ingrese su e-mail y contraseña</p>
     </div>
-    <div class="container p-4">
+    <div class="container loginform p-4">
         <form action="" method="post">
             {% csrf_token %}
             {{ form | crispy }}
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary">Ingresar</button>
                 <hr>
-                <a style="display: grid; place-items: center; text-decoration: none;" href="">¿Olvidaste tu
-                    contraseña?</a>
+                <a href="">¿Olvidaste tu contraseña?</a>
             </div>
         </form>
     </div>

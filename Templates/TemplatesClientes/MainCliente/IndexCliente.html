@@ -56,7 +56,7 @@
             <div class="slider">
                 {% for team in equipos %}
                 <div class="col-6 col-md-3" style="padding: 2px;">
-                    <img src="{{ team.img.url }}" class="img-thumbnail w-100">
+                    <img id="imgBox" src="{{ team.img.url }}" class="img-thumbnail w-100">
                     <div class="container">
                         <p><a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">{{team.name}}</a></p>
                         <p>$ {{ team.precio|floatformat:0 }}</p>
@@ -89,6 +89,10 @@
             </div>
         </footer>
     </div>
+    <script>
+        const imgTeam = JSON.parse('{{ imgTeam|safe }}');
+
+    </script>
     <!-- Enlace al archivo JavaScript estático -->
     <script src="{% static 'js/IndexCliente.js' %}"></script>
 </body>

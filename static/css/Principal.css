@@ -1,0 +1,15 @@
+.navbar .container-fluid img {
+    width: 100px;
+}
+
+.offcanvas-body ul li a {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-family: monospace;
+}
+
+.offcanvas-body ul li a.nav-link:hover,
+.offcanvas-body ul li a.nav-link:active,
+.offcanvas-body ul li a.nav-link:focus {
+    color: rgb(0, 100, 158); /* Cambia este color por el que desees */
+}
