@@ -1,0 +1,24 @@
+{% extends 'TemplatesAdmin/Principal/Principal.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="">
+</head>
+
+<div class="container">
+    <div class="container">
+        <h3>ADMINISTRADOR FORM</h3>
+    </div>
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ FormADDcamiseta | crispy }}
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

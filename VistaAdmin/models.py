@@ -35,7 +35,7 @@ class CodigoPromocional(models.Model):
         return str(self.name) 
 
 class Teams(models.Model):
-    img = models.ImageField(upload_to='imgCamisetasVintage/', blank=True, null=True) #falta ingresar mas imagenes
+    img= models.ImageField(upload_to='imgCamisetasVintage/', blank=True, null=True)
     name = models.CharField(max_length=100)
     year = models.IntegerField()
     precio = models.FloatField()

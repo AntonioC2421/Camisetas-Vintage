@@ -14,65 +14,103 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Principal.css">
     <title>ViewAdmin</title>
-    <link rel="stylesheet" href="{% static 'css/Principal.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/Principal.css' %}">
 </head>
 
 <body>
-    <nav class="navbar fixed-top" style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
-        <div class="container-fluid">
-            <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar"
-                aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <div class="container d-flex row  offcanvas-title" id="offcanvasDarkNavbarLabel" style="justify-content: center; align-items: center;">
-                        <img class="col-6" src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="100px">
-                        <h4 class="col-6" style="font-family: monospace;"><strong>Antonio Cotrina</strong></h4>
+    <div class="principalAdmin ">
+        <nav class="navbar fixed-top"
+            style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
+            <div class="container-fluid">
+                <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar"
+                    aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <div class="container d-flex row  offcanvas-title" id="offcanvasDarkNavbarLabel"
+                            style="justify-content: center; align-items: center;">
+                            <img class="col-6" src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="100px">
+                            <h4 class="col-6" style="font-family: monospace;"><strong>Antonio Cotrina</strong></h4>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="container exit d-flex" style="justify-content:end;">
-                    <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}"><i class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesion</i></a>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Registro Camisetas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Publicar Camiseta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Reporte de Ventas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Registro Camisetas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contactos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Reporte de venta</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pedidos</a>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="#">Pedidos Pendientes</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Pedidos Realizados</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div class="container exit d-flex" style="justify-content:end;">
+                        <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}"><i
+                                class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesion</i></a>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Administración de Camisetas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Publicación de Camiseta</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Reporte de Ventas</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">Pedidos</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="#">Pedidos Pendientes</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Pedidos Realizados</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </nav>
+    </div>
+
+    <div class="conteAdmin" style="display: grid; place-items: center;">
+        <div class="container d-flex row">
+            
+            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
+                <a href="{% url 'ViewsAdmin:ADDcamisetas' %}">
+                    <img src="{% static 'imagenes/ADMINcamisetas.jpeg' %}" alt="">
+                    <h2>Administración de camisetas</h2>
+                </a>
+            </div>
+
+            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
+                <a href="">
+                    <img src="{% static 'imagenes/REPORTimgg.jpeg' %}" alt="">
+                    <h2>Reporte de ventas</h2>
+                </a>
+            </div>
+
+            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
+                <a href="">
+                    <img src="{% static 'imagenes/PedidosImgg.jpeg' %}" alt="">
+                    <h2>Pedidos</h2>
+                </a>
+            </div>
+
+            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
+                <a href="">
+                    <img src="{% static 'imagenes/codigosImgg.jpeg' %}" alt="">
+                    <h2>Códigos promocionales</h2>
+                </a>
+            </div>
+            
         </div>
-    </nav>
+
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
 </body>
 
 </html>

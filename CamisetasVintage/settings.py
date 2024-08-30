@@ -132,9 +132,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-
-MEDIA_URL = '/imgCamisetasVintage/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'imgCamisetasVintage')
+MEDIA_URL = '/imgCamisetasVintage/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

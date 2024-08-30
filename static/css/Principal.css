@@ -13,3 +13,36 @@
 .offcanvas-body ul li a.nav-link:focus {
     color: rgb(0, 100, 158); /* Cambia este color por el que desees */
 }
+
+.principalAdmin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.conteAdmin {
+    margin-top: 100px;
+    z-index: 1;
+}
+
+.conteAdmin .container img {
+    width: 500px;
+    border-radius: 5px;
+    filter: drop-shadow(0 0 10px rgb(155, 154, 154));
+}
+
+.conteAdmin .container h2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+}
