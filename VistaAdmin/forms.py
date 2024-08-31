@@ -4,4 +4,4 @@ from django import forms
 class ADDcamisetasForm(forms.ModelForm):
     class Meta:
         model = Teams
-        fields = '__all__'
+        fields = ('img','name','year','precio','id_Marca','id_Size','id_SubCategoria')

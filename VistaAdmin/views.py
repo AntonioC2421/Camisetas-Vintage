@@ -12,12 +12,15 @@ def MainPrincipal(request):
 
 def ADDcamisetas(request):
     cam = ADDcamisetasForm()
-    data = {'FormADDcamiseta' : ADDcamisetasForm()}
+    teams = Teams.objects.all()
+    data = {'FormADDcamiseta' : ADDcamisetasForm(), 'datateams': teams}
     if request.method == 'POST':
         cam = ADDcamisetasForm(request.POST,request.FILES)
         if cam.is_valid():
             cam.save()
-            data['mensaje'] = 'Camiseta Agregada Exitosamente!!'
+            return redirect('ViewsAdmin:ADDcamisetas')
+        else:
+            data['mensaje'] = 'Ocurrió un problema en el registro :"( !!'
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html',data)
 
 def exit(request):
