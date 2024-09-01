@@ -22,7 +22,10 @@
         <nav class="navbar fixed-top"
             style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
             <div class="container-fluid">
-                <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
+                <a href="{% url 'ViewsAdmin:PrincipalAdmin' %}">
+                    <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
+                </a>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
                     aria-label="Toggle navigation">

@@ -71,7 +71,10 @@
             <img class="control next" src="{% static 'imagenes/next.png' %}">
             {% endif %}
         </div>
-
+        <div class="container-fluid d-flex">
+            {% block content %}
+            {% endblock %}
+        </div>
         <hr>
         <footer>
             <div class="container-fluid p-4">
