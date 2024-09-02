@@ -10,3 +10,8 @@ class ADDimgCamisetas(forms.ModelForm):
     class Meta:
         model = TeamsImgs
         fields = {'imagen'}
+
+class ChangeCamisetas(forms.ModelForm):
+    class Meta:
+        models = Teams
+        fields = '__all__'
