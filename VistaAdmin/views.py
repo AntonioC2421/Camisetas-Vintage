@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Categorias, SubCategoria,Teams,Size,TeamsImgs,Marca,CodigoPromocional
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from .forms import *
+from .models import *
 
 #Pagina Principal de el Admin
 @login_required
@@ -28,7 +28,7 @@ def ADDcamisetas(request):
 def ADDimgCamiseta(request, id):
     team = Teams.objects.get(id=id)
     addimgform = ADDimgCamisetas()
-    imgsTeam = TeamsImgs.objects.filter(teams=id)
+    imgsTeam = TeamsImgs.objects.filter(teams=id).order_by('-id')
     if request.method == 'POST':
         if 'submit_img' in request.POST:
             addimgform = ADDimgCamisetas(request.POST, request.FILES)
@@ -44,10 +44,11 @@ def ADDimgCamiseta(request, id):
     
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDimgCamisetas.html',data)
 
-def DeleteImg(request, teams_id, img_id):
+def DeleteImg(request, img_id):
     img = TeamsImgs.objects.get(id=img_id)
+    team_id= request.POST['img_id']
     img.delete()
-    return redirect('ViewsAdmin:ADDimgCamisetas', teams_id=teams_id)
+    return redirect ('ViewsAdmin:ADDimgcamisetas', id = team_id)
 
 def exit(request):
     logout(request)

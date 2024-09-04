@@ -1,5 +1,6 @@
 {% extends 'TemplatesAdmin/ADDcamisetas/ADDcamisetas.html' %}
 {% load static %}
+{% load filtros %}
 {% load crispy_forms_tags %}
 {% block content %}
 <!-- Mantenemos el contenido existente -->
@@ -18,15 +19,6 @@
             {{ FormAddImg | crispy }}
             <button class="btn btn-primary" type="submit" name="submit_img">Agregar Imagen</button>
         </form>
-        {% if mensaje %}
-        <div class="alert alert-success my-2" id="mensaje">
-            {{ mensaje }}
-        </div>
-        {% elif error %}
-        <div class="alert alert-danger my-2" id="mensaje">
-            {{ error }}
-        </div>
-        {% endif %}
         <hr>
 
         <div class="container row">
@@ -41,9 +33,12 @@
                         {% else %}
                         <img src="{% static 'imagenes/eror.jpg' %}" style="width: 100px;">
                         {% endif %}
-                        
-                        <button class="btn btn-danger"><a href="{% url 'ViewsAdmin:DeleteImg' i.id %}"><i
-                                    class="bi bi-trash"></i></a></button>
+                        <form action="{% url 'ViewsAdmin:DeleteImg' i.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-danger" name="img_id" type="submit" value="{{ i.teams.id }}"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 {% endfor %}

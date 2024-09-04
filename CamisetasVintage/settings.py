@@ -54,12 +54,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                #procceso para ver las categorias en todos los templates
                 'VistaCliente.context_processors.categorias_disponibles',
-                #procceso para ver los formulario en todos los templates
-                'VistaCliente.context_processors.admin_camisetas', 
+                'VistaCliente.context_processors.admin_camisetas',
                 'VistaCliente.context_processors.formulario_addcamiseta',
             ],
+            'libraries': {
+                'filtros': 'VistaAdmin.filtros',
+            },
         },
     },
 ]
