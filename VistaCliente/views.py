@@ -3,7 +3,7 @@ from VistaAdmin.models import Categorias, SubCategoria,Teams,Size,TeamsImgs,Marc
 from django.core.serializers import serialize
 
 def MainPrincipalCliente(request):
-    Equipo = Teams.objects.all()
+    Equipo = Teams.objects.all().order_by('-id')[0:8]
     imgTeam = TeamsImgs.objects.all()
     imgTeam_serialized = serialize('json', imgTeam)
     

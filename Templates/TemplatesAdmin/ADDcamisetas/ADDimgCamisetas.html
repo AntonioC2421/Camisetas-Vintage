@@ -1,59 +1,58 @@
-{% extends 'TemplatesAdmin/Principal/Principal.html' %}
+{% extends 'TemplatesAdmin/ADDcamisetas/ADDcamisetas.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container-fluid d-flex" style="justify-content: end; margin: 5px;">
-    <a type="button" class="btn-close" disabled aria-label="Close" href="{% url 'ViewsAdmin:ADDcamisetas'%}"></a>
-</div>
-<div class="container-fluid d-flex">
-    
-    <div class="container p-3" style="width: 30%;">
-        <h3 style="text-align: center;">Agregar Camiseta</h3>
-        <form method="post" enctype="multipart/form-data">
+<!-- Mantenemos el contenido existente -->
+{{ block.super }}
+<!-- Agregamos el modal encima del contenido -->
+<div class="overlay"></div>
+<div class="ventanaAddImg" id="ventImg">
+    <div class="container" style="border: 1px solid rgb(226, 226, 226); border-radius: 5px; padding: 15px;">
+        <div style="display: flex; justify-content: end; align-items: end;">
+            <a href="{% url 'ViewsAdmin:ADDcamisetas' %}" type="button" class="btn-close" aria-label="Close"></a>
+        </div>
+
+        <h3 style="text-align: center;">Agregar Fotos</h3>
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ FormADDimgCamisetas | crispy }}
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Agregar Foto</button>
-            </div>
+            {{ FormAddImg | crispy }}
+            <button class="btn btn-primary" type="submit" name="submit_img">Agregar Imagen</button>
         </form>
         {% if mensaje %}
-        <div class="alert alert-danger my-2" id="mensaje">
-            {{mensaje}}
+        <div class="alert alert-success my-2" id="mensaje">
+            {{ mensaje }}
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var successMessage = document.getElementById("mensaje");
-
-                if (successMessage) {
-                    setTimeout(function () {
-                        successMessage.style.display = 'none';
-                    }, 2000);
-                }
-            });
-        </script>
+        {% elif error %}
+        <div class="alert alert-danger my-2" id="mensaje">
+            {{ error }}
+        </div>
         {% endif %}
-    </div>
+        <hr>
 
-    <div class="container d-flex row my-2">
-            {% for i in imgs %}
-            <div class="col-lg-4 p-3">
-                <img src="{{ i.imagen.url }}" alt="" style="width: 100%;">
-                
-                <div class="d-grid gap-2 col-6 mx-auto m-2">
-                    <a  class="btn btn-danger" type="button" href="{% url 'ViewsAdmin:DeleteImg' i.id %}"><i class="bi bi-trash3"></i></a>
+        <div class="container row">
+            {% if imgs %}
+            <img class="control prev" src="{% static 'imagenes/prev.png' %}">
+            <div class="slider">
+                {% for i in imgs %}
+                <div class="col-6">
+                    <div style="display: grid; place-content: center;">
+                        {% if i.imagen %}
+                        <img src="{{ i.imagen.url }}" style="width: 100px;">
+                        {% else %}
+                        <img src="{% static 'imagenes/eror.jpg' %}" style="width: 100px;">
+                        {% endif %}
+                        
+                        <button class="btn btn-danger"><a href="{% url 'ViewsAdmin:DeleteImg' i.id %}"><i
+                                    class="bi bi-trash"></i></a></button>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-
-            {% for x in imgMain %}
-            <div class="col-lg-4 " style="margin-bottom: 15px;">
-                <img src="{{ x.img.url }}" alt="" style="width: 100%;">
-                <h6 style="text-align: center; background: rgb(0, 100, 158); color: aliceblue;">Imagen Principal</h6>
-                <div class="d-grid gap-2 col-6 mx-auto m-2">
-                    <button class="btn btn-danger" type="button"><i class="bi bi-trash3"></i></button>
-                </div>
-            </div>
-            {% endfor %}
+            <img class="control next" src="{% static 'imagenes/next.png' %}">
+            {% endif %}
+        </div>
     </div>
+    <!-- Enlace al archivo JavaScript estático -->
+    <script src="{% static 'js/IndexCliente.js' %}"></script>
 </div>
 {% endblock %}

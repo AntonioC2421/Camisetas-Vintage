@@ -49,6 +49,3 @@ class Teams(models.Model):
 class TeamsImgs(models.Model):
     teams = models.ForeignKey(Teams, related_name='images', on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to='imgCamisetasVintage/', blank=True, null=True)
-
-    def __str__(self):
-        return f'Imagen de camiseta {self.teams.name}'

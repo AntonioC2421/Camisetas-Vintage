@@ -12,40 +12,42 @@ def MainPrincipal(request):
 
 def ADDcamisetas(request):
     cam = ADDcamisetasForm()
-    teams = Teams.objects.all()
-    data = {'FormADDcamiseta' : ADDcamisetasForm(), 'datateams': teams}
-    if request.method == 'POST':
-        cam = ADDcamisetasForm(request.POST,request.FILES)
-        if cam.is_valid():
-            cam.save()
-            return redirect('ViewsAdmin:ADDcamisetas')
-        else:
-            data['mensaje'] = 'Ocurrió un problema en el registro :"( !!'
-    return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html',data)
 
-def ADDimgCamisetasViews(request, id):
-    Team = Teams.objects.get(id=id)
-    TeamMain = Teams.objects.filter(id=id)
-    imgsTeam = TeamsImgs.objects.filter(teams=id)
-    data = {'FormADDimgCamisetas': ADDimgCamisetas(), 'imgs': imgsTeam, 'imgMain': TeamMain}
     if request.method == 'POST':
-        formimgteam = ADDimgCamisetas(request.POST, request.FILES)
-        if formimgteam.is_valid():
-            if not request.FILES:
-                data['mensaje'] = 'Ingrese una imagen'
+        if 'submit_cam' in request.POST:
+            cam = ADDcamisetasForm(request.POST, request.FILES)
+            if cam.is_valid():
+                cam.save()
+                return redirect('ViewsAdmin:ADDcamisetas')
             else:
-                formimgteam_instance = formimgteam.save(commit=False)
-                formimgteam_instance.teams = Team
-                formimgteam_instance.save()
-                return redirect('ViewsAdmin:ADDimgCamisetas' ,id=id)
-        data['formimgteam'] = ADDimgCamisetas()
-    return render(request, './TemplatesAdmin/ADDcamisetas/ADDimgcamisetas.html', data)
+                data['mensaje'] = 'Ocurrió un problema en el registro :"( !!'
+    data = {'FormADDcamiseta': cam}
 
-def DeleteImg(request, id):
-    img = TeamsImgs.objects.get(id=id)
-    teams_id = img.teams.id
+    return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html', data)
+
+def ADDimgCamiseta(request, id):
+    team = Teams.objects.get(id=id)
+    addimgform = ADDimgCamisetas()
+    imgsTeam = TeamsImgs.objects.filter(teams=id)
+    if request.method == 'POST':
+        if 'submit_img' in request.POST:
+            addimgform = ADDimgCamisetas(request.POST, request.FILES)
+            if addimgform.is_valid():
+                addimgform_instance = addimgform.save(commit = False)
+                addimgform_instance.teams = team
+                addimgform_instance.save()
+                return redirect ('ViewsAdmin:ADDimgcamisetas', id = id)
+    data = {
+        'FormAddImg' : addimgform,
+        'imgs':imgsTeam,
+    }
+    
+    return render(request, './TemplatesAdmin/ADDcamisetas/ADDimgCamisetas.html',data)
+
+def DeleteImg(request, teams_id, img_id):
+    img = TeamsImgs.objects.get(id=img_id)
     img.delete()
-    return redirect('ViewsAdmin:ADDimgCamisetas', id=teams_id)
+    return redirect('ViewsAdmin:ADDimgCamisetas', teams_id=teams_id)
 
 def exit(request):
     logout(request)
