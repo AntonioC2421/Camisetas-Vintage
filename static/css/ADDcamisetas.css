@@ -21,10 +21,6 @@ a{
     border-right: 1px solid rgb(211, 211, 211);
 }
 
-.adminCamiseta .cardcamisetas .princi{
-    border: 1px solid rgb(173, 173, 173);
-}
-
 .adminCamiseta .cardcamisetas .links button{
     border:1px solid black;
     text-align: center;

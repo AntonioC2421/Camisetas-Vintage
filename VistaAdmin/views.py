@@ -25,6 +25,18 @@ def ADDcamisetas(request):
 
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html', data)
 
+def ChangeInfoCamiseta(request,id_team):
+    team = Teams.objects.get(id = id_team)
+    data = {'ChangeInfo' : ADDcamisetasForm(instance=team)}
+    if request.method == 'POST':
+        form = ADDcamisetasForm(data=request.POST, instance=team)
+        if form.is_valid():
+            form.save()
+            return redirect('ViewsAdmin:ADDcamisetas')
+        data['ChangeInfo'] = form
+
+    return render(request, './TemplatesAdmin/ADDcamisetas/ChangeCamisetas.html', data)
+
 def ADDimgCamiseta(request, id):
     team = Teams.objects.get(id=id)
     addimgform = ADDimgCamisetas()
@@ -49,6 +61,13 @@ def DeleteImg(request, img_id):
     team_id= request.POST['img_id']
     img.delete()
     return redirect ('ViewsAdmin:ADDimgcamisetas', id = team_id)
+
+def DeleteTeam(request, id_team):
+    team = Teams.objects.get(id = id_team)
+    if request.method == 'POST':
+        team.delete()
+        return redirect('ViewsAdmin:ADDcamisetas')
+    return render(request,'./TemplatesAdmin/ADDcamisetas/DeleteCamisetas.html', {'id_team': id_team})
 
 def exit(request):
     logout(request)

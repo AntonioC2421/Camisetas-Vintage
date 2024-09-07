@@ -15,7 +15,7 @@
         crossorigin="anonymous"></script>
     <title>ViewAdmin</title>
     <link rel="stylesheet" href="{% static 'css/ADDcamisetas.css' %}">
-    <link rel="stylesheet" href="{% static 'css/ADDimgCamisetas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Overlay-Ventana.css' %}">
 </head>
 
 <body>
@@ -23,15 +23,14 @@
         <nav class="navbar fixed-top">
             <div class="container-fluid">
                 <a href="{% url 'ViewsAdmin:PrincipalAdmin' %}">
-                    <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro"
-                        style="width: 100px;">
+                    <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro" style="width: 100px;">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar"
-                    aria-labelledby="offcanvasDarkNavbarLabel">
+
+                <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                     <div class="offcanvas-header">
                         <div class="container d-flex row  offcanvas-title" id="offcanvasDarkNavbarLabel"
                             style="justify-content: center; align-items: center;">
@@ -69,16 +68,16 @@
                         </ul>
                     </div>
                 </div>
+
             </div>
         </nav>
     </div>
-    <div class="conteAdmin" style="display: grid; place-items: center; margin-top: 100px;">
+    <div class="conteAdmin" style="display: grid; place-items: center; margin-top: 100px; ">
         <div class="container-fluid d-flex" style="justify-content: end; margin: 5px;">
-            <a type="button" class="btn-close" disabled aria-label="Close"
-                href="{% url 'ViewsAdmin:PrincipalAdmin'%}"></a>
+            <a type="button" class="btn-close" disabled aria-label="Close" href="{% url 'ViewsAdmin:PrincipalAdmin'%}"></a>
         </div>
         <div class="container-fluid adminCamiseta d-flex">
-            <div class="container formulario p-3" style="width:30%;">
+            <div class="container formulario p-3" style="width:30%; height: 780px;">
                 {% block content %}
                 <h3 style="text-align: center;">Agregar Camiseta</h3>
                 <form method="POST" enctype="multipart/form-data">
@@ -88,26 +87,24 @@
                 </form>
                 {% endblock %}
             </div>
-            <div class="container row cardcamisetas" style="width: 70%;">
+            <div class="container row cardcamisetas" style="width: 70%; height: 780px; overflow-y: scroll; scrollbar-width: none;">
                 {% if datateams %}
                 {% for team in datateams %}
-                <div class="container princi col-lg-6 p-2">
-                    <div class="container">
-                        <h5 style="text-align: center;">{{ team.name }}</h5>
-                    </div>
+                <div class="container col-lg-6" style="display: grid; place-content: center;">
+                    <h5 style="text-align: center;">{{ team.name }}</h5>
                     <div class="container links d-flex">
                         <div class="container">
                             <button class="container">
                                 <a href="{% url 'ViewsAdmin:ADDimgcamisetas' team.id %}">Agregar Fotos</a>
                             </button>
                             <button class="container">
-                                <a href="">Editar Información</a>
+                                <a href="{% url 'ViewsAdmin:ChangeInfo' team.id %}">Editar Información</a>
                             </button>
                             <button class="container">
-                                <a href="">Ver Detalles</a>
+                                <a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">Ver Detalles</a>
                             </button>
                             <button class="container">
-                                <a href="">Eliminar Camisetas</a>
+                                <a href="{% url 'ViewsAdmin:DeleteTeam' team.id %}">Eliminar Camisetas</a>
                             </button>
                         </div>
                         <div class="container" style="display: grid; place-items: center;">
