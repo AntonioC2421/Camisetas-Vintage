@@ -1,3 +1,7 @@
+*{
+    font-family: monospace;
+}
+
 .navbar .container-fluid img {
     width: 100px;
 }
@@ -35,7 +39,7 @@
     filter: drop-shadow(0 0 10px rgb(155, 154, 154));
 }
 
-.conteAdmin .container h2{
+.conteAdmin .container .ItemTitle{
     position: absolute;
     top: 50%;
     left: 50%;

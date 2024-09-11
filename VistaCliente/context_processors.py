@@ -21,3 +21,17 @@ def formulario_addcamiseta(request):
     return {
         'FormADDcamiseta': cam,
     }
+
+def codigos_disponibles(request):
+    datecodprom = CodigoPromocional.objects.all()
+
+    return{
+        'datoscodigos': datecodprom
+    }
+
+def formulario_addcod(request):
+    cam = FormCodPromo()
+
+    return {
+        'FormCodProm' : cam
+    }

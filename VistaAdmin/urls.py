@@ -9,5 +9,8 @@ urlpatterns = [
     path('ViewAdmin/AddCamiseta/DeleteImg/<int:img_id>', views.DeleteImg, name='DeleteImg'),
     path('ViewAdmin/AddCamiseta/DeleteTeam/<int:id_team>', views.DeleteTeam, name='DeleteTeam'),
     path('ViewAdmin/AddCamiseta/ChangeInfo/<int:id_team>', views.ChangeInfoCamiseta, name='ChangeInfo'),
+    path('ViewsAdmin/CodiPromo', views.CodiPromoViews, name='CodPromUrl'),
+    path('ViewsAdmin/CodiPromo/DeleteCod/<int:id_cod>', views.DeleteCodPromo, name='deletecod'),
+    path('ViewAdmin/AddCamiseta/ChangeInfoCod/<int:id_cod>', views.ChangeInfoCod, name='ChangeInfoCod'),
     path('exit/', views.exit, name='exit'),
 ]

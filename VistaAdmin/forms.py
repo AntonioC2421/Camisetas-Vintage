@@ -13,5 +13,10 @@ class ADDimgCamisetas(forms.ModelForm):
 
 class ChangeCamisetas(forms.ModelForm):
     class Meta:
-        models = Teams
+        model = Teams
+        fields = '__all__'
+
+class FormCodPromo(forms.ModelForm):
+    class Meta:
+        model = CodigoPromocional
         fields = '__all__'
