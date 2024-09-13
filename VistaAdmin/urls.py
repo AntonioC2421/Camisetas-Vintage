@@ -12,5 +12,6 @@ urlpatterns = [
     path('ViewsAdmin/CodiPromo', views.CodiPromoViews, name='CodPromUrl'),
     path('ViewsAdmin/CodiPromo/DeleteCod/<int:id_cod>', views.DeleteCodPromo, name='deletecod'),
     path('ViewAdmin/AddCamiseta/ChangeInfoCod/<int:id_cod>', views.ChangeInfoCod, name='ChangeInfoCod'),
+    path('ViewAmin/AddDatos', views.viewsAgregarDatos, name='AddDatos'),
     path('exit/', views.exit, name='exit'),
 ]

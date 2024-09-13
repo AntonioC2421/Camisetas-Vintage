@@ -102,6 +102,10 @@ def DeleteCodPromo(request, id_cod):
         return redirect('ViewsAdmin:CodPromUrl')
     return render(request, './TemplatesAdmin/CodigosPromocionales/CodPromoDelete.html')
 
+#sección AGREGAR: Marcas, Ligas, Equipo
+def viewsAgregarDatos(request):
+    return render(request, './TemplatesAdmin/ADDdatos/MainAddDatos.html')
+
 #Deslogueo
 def exit(request):
     logout(request)
