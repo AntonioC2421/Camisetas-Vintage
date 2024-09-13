@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from .forms import *
 from .models import *
+from django.views import View
 
 #Pagina Principal de el Admin
 @login_required
@@ -102,9 +103,25 @@ def DeleteCodPromo(request, id_cod):
         return redirect('ViewsAdmin:CodPromUrl')
     return render(request, './TemplatesAdmin/CodigosPromocionales/CodPromoDelete.html')
 
+
+from django.http import JsonResponse
 #sección AGREGAR: Marcas, Ligas, Equipo
-def viewsAgregarDatos(request):
-    return render(request, './TemplatesAdmin/ADDdatos/MainAddDatos.html')
+class ViewDatos(View):
+
+    def viewsAgregarDatos(request):
+        marcas = Marca.objects.all()
+        form = FormsAddMarcas()
+        if request.method == 'POST':
+            if 'submit_marca' in request.POST:
+                form = FormsAddMarcas(request.POST)
+                if form.is_valid():
+                    form.save()
+                    form = FormsAddMarcas()
+                    marcas = list(Marca.objects.values('name'))
+            return JsonResponse({'success': True, 'marcas': marcas})
+        data = {'FormsAddMarca':form, 'marcas':marcas}
+        return render(request,'./TemplatesAdmin/ADDdatos/MainAddDatos.html', data)
+
 
 #Deslogueo
 def exit(request):

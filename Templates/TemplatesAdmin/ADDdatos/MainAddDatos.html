@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+{% load crispy_forms_tags %}
 
 <head>
     <meta charset="UTF-8">
@@ -92,8 +93,7 @@
         </nav>
     </div>
 
-    <div class="conteAdmin">
-        
+    <div class="conteAdmin" style="display: grid; place-content: center;">
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
             tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -103,7 +103,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Show a second modal and hide this one with the button below.
+                        <form method="post" id="marcaForm">
+                            {% csrf_token %}
+                            {{FormsAddMarca | crispy}}
+                            <input type="hidden" name="submit_marca">
+                            <button type="submit" class="btn btn-primary">Agregar Camisetas</button>
+                        </form>
+                        <div id="successMessage" style="display: none; color: green; margin-top: 10px;"></div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
@@ -121,7 +127,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Hide this modal and show the first with the button below.
+                        {% for i in marcas %}
+                        <h6>
+                            {{i.name}}
+                        </h6>
+                        {% endfor %}
+
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back
@@ -130,129 +141,71 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first
-            modal</button>
 
+        <div class="container row">
+            <div class="col-lg-6 col-md-12" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{% static 'imagenes/image.png' %}"
+                    style="width: 80%; padding: 2px; border-radius: 5px; cursor: pointer;"
+                    data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+            </div>
 
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Show a second modal and hide this one with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
-                            data-bs-toggle="modal">Open second modal</button>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Hide this modal and show the first with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back
-                            to first</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first
-            modal</button>
 
-
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Show a second modal and hide this one with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
-                            data-bs-toggle="modal">Open second modal</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Hide this modal and show the first with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back
-                            to first</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first
-            modal</button>
-
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Show a second modal and hide this one with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
-                            data-bs-toggle="modal">Open second modal</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Hide this modal and show the first with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back
-                            to first</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first
-            modal</button>
     </div>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            // Manejar el envío del formulario de la marca con AJAX
+            $('#marcaForm').on('submit', function (e) {
+                e.preventDefault();  // Evita el envío por defecto
+
+                var formData = $(this).serialize();  // Serializa los datos del formulario
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'ViewsAdmin:AddDatos' %}",  // Asegúrate de que esta URL sea la correcta para manejar el formulario en Django
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            // Mostrar mensaje de éxito
+                            $('#successMessage').text('Marca añadida correctamente.');
+                            $('#successMessage').show();
+
+                            // Limpiar los campos del formulario
+                            $('#marcaForm')[0].reset();
+
+                            // Actualizar la lista de marcas en el segundo modal
+                            var marcasList = '';
+                            response.marcas.forEach(function (marca) {
+                                marcasList += '<h6>' + marca.name + '</h6>';
+                            });
+                            $('#exampleModalToggle2 .modal-body').html(marcasList);
+
+                            setTimeout(function () {
+                                $('#successMessage').fadeOut('slow');
+                            }, 2000);
+                        } else {
+                            // Mostrar errores si los hay
+                            console.log(response.errors);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Mostrar mensaje de error si falla
+                        $('#successMessage').text('Ocurrió un error. Inténtalo de nuevo.');
+                        $('#successMessage').css('color', 'red');
+                        $('#successMessage').show();
+
+                        setTimeout(function () {
+                            $('#successMessage').fadeOut('slow');
+                        }, 2000);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
