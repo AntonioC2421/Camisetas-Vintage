@@ -105,22 +105,40 @@ def DeleteCodPromo(request, id_cod):
 
 
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 #sección AGREGAR: Marcas, Ligas, Equipo
 class ViewDatos(View):
+    def eliminar_marca(request, marca_id):
+        if request.method == 'POST':
+            try:
+                marca = Marca.objects.get(id=marca_id)
+                marca.delete()
+                return JsonResponse({'success': True, 'message': 'Marca eliminada correctamente'})
+            except Marca.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'Marca no encontrada'})
+        return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
 
     def viewsAgregarDatos(request):
-        marcas = Marca.objects.all()
-        form = FormsAddMarcas()
-        if request.method == 'POST':
-            if 'submit_marca' in request.POST:
+            if request.method == 'POST':
                 form = FormsAddMarcas(request.POST)
                 if form.is_valid():
-                    form.save()
-                    form = FormsAddMarcas()
-                    marcas = list(Marca.objects.values('name'))
-            return JsonResponse({'success': True, 'marcas': marcas})
-        data = {'FormsAddMarca':form, 'marcas':marcas}
-        return render(request,'./TemplatesAdmin/ADDdatos/MainAddDatos.html', data)
+                    nueva_marca = form.save()
+                    response_data = {
+                        'success': True,
+                        'new_marca': {
+                            'id': nueva_marca.id,
+                            'name': nueva_marca.name
+                        }
+                    }
+                    return JsonResponse(response_data)
+                else:
+                    return JsonResponse({'success': False, 'errors': form.errors})
+
+            # Para GET requests o cualquier otro caso
+            marcas = Marca.objects.all()
+            form = FormsAddMarcas()
+            data = {'FormsAddMarca': form, 'marcas': marcas}
+            return render(request, './TemplatesAdmin/ADDdatos/MainAddDatos.html', data)
 
 
 #Deslogueo
