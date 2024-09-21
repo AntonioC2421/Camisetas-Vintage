@@ -120,24 +120,48 @@ class ViewDatos(View):
 
     def viewsAgregarDatos(request):
             if request.method == 'POST':
-                form = FormsAddMarcas(request.POST)
-                if form.is_valid():
-                    nueva_marca = form.save()
-                    response_data = {
-                        'success': True,
-                        'new_marca': {
-                            'id': nueva_marca.id,
-                            'name': nueva_marca.name
+                if 'submit-marca' in request.POST:
+                    form = FormsAddMarcas(request.POST)
+                    if form.is_valid():
+                        nueva_marca = form.save()
+                        response_data = {
+                            'success': True,
+                            'new_marca': {
+                                'id': nueva_marca.id,
+                                'name': nueva_marca.name
+                            }
                         }
-                    }
-                    return JsonResponse(response_data)
-                else:
-                    return JsonResponse({'success': False, 'errors': form.errors})
+                        return JsonResponse(response_data)
+                    else:
+                        return JsonResponse({'success': False, 'errors': form.errors})
+                    
+                elif 'submit-liga' in request.POST:
+                    formLiga = FormAddCategorias(request.POST)
+                    if formLiga.is_valid():
+                        nueva_liga = formLiga.save()
+                        response_data = {
+                            'success' : True,
+                            'new_liga' : {
+                                'id': nueva_liga.id,
+                                'name':nueva_liga.name
+                            }
+                        }
+                        return JsonResponse(response_data)
+                    else:
+                        return JsonResponse({'success': False, 'errors':formLiga.errors})
+
 
             # Para GET requests o cualquier otro caso
             marcas = Marca.objects.all()
+            ligas = Categorias.objects.all()
+            formLigas = FormAddCategorias()
             form = FormsAddMarcas()
-            data = {'FormsAddMarca': form, 'marcas': marcas}
+            data = {
+                'FormsAddMarca': form,
+                'marcas': marcas,
+                'ligas': ligas,
+                'FormAddLigas':formLigas
+            }
             return render(request, './TemplatesAdmin/ADDdatos/MainAddDatos.html', data)
 
 

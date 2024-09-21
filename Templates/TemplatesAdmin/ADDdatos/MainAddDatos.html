@@ -77,7 +77,7 @@
     </div>
 
     <div class="conteAdmin" style="display: grid; place-content: center;">
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        <div class="modal fade" id="exampleModalToggleMarca" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
             tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -89,19 +89,19 @@
                         <form method="post" id="marcaForm">
                             {% csrf_token %}
                             {{FormsAddMarca | crispy}}
-                            <input type="hidden" name="submit_marca">
+                            <input type="hidden" name="submit-marca">
                             <button type="submit" class="btn btn-primary">Agregar Marca</button>
                         </form>
                         <div id="successMessage" style="display: none; color: green; margin-top: 10px;"></div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggleMarca2"
                             data-bs-toggle="modal">Listado de Marcas</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+        <div class="modal fade" id="exampleModalToggleMarca2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
             tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -109,18 +109,18 @@
                         <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Listado de marcas</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body row" style="overflow-y: scroll;height: 135px; scrollbar-width: none;">
+                    <div id="marcaContainer" class="modal-body row" style="overflow-y: scroll;height: 135px; scrollbar-width: none;">
                         {% for i in marcas %}
-                        <div id="marca-{{ i.id }}" class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
+                        <div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>{{ i.name }}</h3>
-                            <button class="btn btn-danger delete-marca" data-id="{{ i.id }}">
+                            <button class="btn btn-danger delete-marca" id="marca-{{ i.id }}" data-id="{{ i.id }}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
                         {% endfor %}
                     </div>
                     <div class="modal-footer" style=" display: flex; justify-content: space-between;">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggleMarca"
                             data-bs-toggle="modal">Volver</button>
                         <div id="successMessages" style="display: none; color: red; margin-top: 10px;"></div>
                     </div>
@@ -128,13 +128,73 @@
             </div>
         </div>
 
-        <div class="container row">
+        <!--MODAL DE LIGAS-->
+        <div class="modal fade" id="exampleModalToggleLigas" aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Ligas</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="form-add-liga">
+                            {% csrf_token %}
+                            {{FormAddLigas| crispy}}
+                            <input type="hidden" name="submit-liga">
+                            <button type="submit" class="btn btn-primary">Agregar Liga</button>
+                        </form>
+                        <div id="successMessage"></div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggleLigas2"
+                            data-bs-toggle="modal">Listado de Ligas</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalToggleLigas2" aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Listado de ligas</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="ligaContainer" class="modal-body row">
+                        {% for i in ligas %}
+                        <div class="container p-2 col-lg-6">
+                            <h3>{{ i.name }}</h3>
+                            <button class="btn btn-danger btn-delete" id="idDelete-{{ i.id }}" data-id="{{ i.id }}"
+                                data-type="liga">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer modelfooterlist">
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggleLigas"
+                            data-bs-toggle="modal">Volver</button>
+                        <div id="successMessages" style="display: none; color: red; margin-top: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container row imgacceso">
             <div class="col-lg-6 col-md-12" style="display: flex; justify-content: center; align-items: center;">
+                <p>Ingreso de Marcas</p>
                 <img src="{% static 'imagenes/image.png' %}"
                     style="width: 80%; padding: 2px; border-radius: 5px; cursor: pointer;"
-                    data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                    data-bs-target="#exampleModalToggleMarca" data-bs-toggle="modal">
             </div>
 
+            <div class="col-lg-6 col-md-12">
+                <p>Ingreso de Ligas</p>
+                <img src="{% static 'imagenes/image.png' %}" data-bs-target="#exampleModalToggleLigas"
+                    data-bs-toggle="modal">
+            </div>
         </div>
 
     </div>

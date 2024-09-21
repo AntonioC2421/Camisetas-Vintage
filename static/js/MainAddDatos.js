@@ -51,7 +51,7 @@ $(document).ready(function () {
                     $('#marcaForm')[0].reset();
 
                     // Agregar la nueva marca a la lista en el modal
-                    $('.modal-body.row').append(
+                    $('#marcaContainer').append(
                         `<div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>${response.new_marca.name}</h3>
                             <button class="btn btn-danger delete-marca" id="marca-${response.new_marca.id}" data-id="${response.new_marca.id}">
@@ -86,6 +86,53 @@ $(document).ready(function () {
         });
     });
 
+    $('#form-add-liga').on('submit', function(e){
+        e.preventDefault();
+        let formData = $(this).serialize();
+        $.ajax ({
+            type : 'POST',
+            url : addDatosUrl,
+            data : formData,
+            success : function(response){
+                console.log('succes response liga', response);
+
+                if (response.success){
+                    $('#successMessage').text('Liga añadida correctamente');
+                    $('#successMensage').show();
+
+                    $('#form-add-liga')[0].reset();
+
+                    $('#ligaContainer').append(
+                        `<div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
+                            <h3>${response.new_liga.name}</h3>
+                            <button class="btn btn-danger btn-delete" id="idDelete-${response.new_liga.id}" data-id="${response.new_liga.id}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>`
+                    )
+
+                    assignDeleteMarcaEvent();
+
+                    setTimeout(function(){
+                        $('#successMessage').fadeOut('slow');
+                    },2000);
+                } else {
+                    console.log('Errors: ', response.errors);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('Error response:', xhr.responseText);  
+                // Mostrar mensaje de error si falla
+                $('#successMessage').text('Ocurrió un error. Inténtalo de nuevo.');
+                $('#successMessage').css('color', 'red');
+                $('#successMessage').show();
+
+                setTimeout(function () {
+                    $('#successMessage').fadeOut('slow');
+                }, 2000);
+            }
+        })
+    });
     // Función para asignar el evento de eliminar
     function assignDeleteMarcaEvent() {
         // Usa `.off()` para eliminar eventos previos

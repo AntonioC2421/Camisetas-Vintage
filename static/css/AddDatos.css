@@ -15,4 +15,46 @@
 .conteAdmin {
     margin-top: 100px;
     z-index: 1;
+    display: grid; 
+    place-content: center;
+}
+
+.principalAdmin .navbar{
+    background-color: rgb(255, 255, 255); 
+    border-bottom: 1px solid rgb(163, 163, 163);
+}
+
+.modal-body #successMessage{
+    display: none; 
+    color: green; 
+    margin-top: 10px;
+}
+
+#exampleModalToggle2 .modal-body{
+    overflow-y: scroll;
+    height: 135px; 
+    scrollbar-width: none;
+}
+
+.modal-body .container{
+    display: flex; 
+    justify-content: space-evenly;
+}
+
+.modelfooterlist{
+    display: flex; 
+    justify-content: space-between;
+}
+
+.imgacceso div{
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.imgacceso div img{
+    width: 80%; 
+    padding: 2px; 
+    border-radius: 5px; 
+    cursor: pointer;
 }
