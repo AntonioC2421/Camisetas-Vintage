@@ -13,6 +13,6 @@ urlpatterns = [
     path('ViewsAdmin/CodiPromo/DeleteCod/<int:id_cod>', views.DeleteCodPromo, name='deletecod'),
     path('ViewAdmin/AddCamiseta/ChangeInfoCod/<int:id_cod>', views.ChangeInfoCod, name='ChangeInfoCod'),
     path('ViewAdmin/AddDatos/', views.ViewDatos.viewsAgregarDatos, name='AddDatos'),  # Asegúrate de esta URL
-    path('DeleteMarca/<int:marca_id>/', views.ViewDatos.eliminar_marca, name='delete_marca'),
+    path('DeleteDato/<int:id_dato>/', views.ViewDatos.eliminar_datos, name='delete_marca'),
     path('exit/', views.exit, name='exit'),
 ]

@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from .forms import *
 from .models import *
 from django.views import View
+from django.http import JsonResponse
 
 #Pagina Principal de el Admin
 @login_required
@@ -103,19 +104,40 @@ def DeleteCodPromo(request, id_cod):
         return redirect('ViewsAdmin:CodPromUrl')
     return render(request, './TemplatesAdmin/CodigosPromocionales/CodPromoDelete.html')
 
-
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
 #sección AGREGAR: Marcas, Ligas, Equipo
 class ViewDatos(View):
-    def eliminar_marca(request, marca_id):
+    def eliminar_datos(request, id_dato):
         if request.method == 'POST':
-            try:
-                marca = Marca.objects.get(id=marca_id)
-                marca.delete()
-                return JsonResponse({'success': True, 'message': 'Marca eliminada correctamente'})
-            except Marca.DoesNotExist:
-                return JsonResponse({'success': False, 'message': 'Marca no encontrada'})
+            # Obtener el valor del tipo de dato enviado desde el POST
+            tipo_dato = request.POST.get('id-dato-delete')
+            if tipo_dato == 'marca':
+                try:
+                    marca = Marca.objects.get(id=id_dato)
+                    marca.delete()
+                    return JsonResponse({'success': True, 'message': 'Marca eliminada correctamente'})
+                except Marca.DoesNotExist:
+                    return JsonResponse({'success': False, 'message': 'Marca no encontrada'})
+            elif tipo_dato == 'liga':
+                try:
+                    liga = Categorias.objects.get(id=id_dato)
+                    liga.delete()
+                    return JsonResponse({'success': True, 'message': 'Liga eliminada correctamente'})
+                except Categorias.DoesNotExist:
+                    return JsonResponse({'success': False, 'message': 'Liga no encontrada'})
+            elif tipo_dato == 'equipo':
+                try:
+                    equipo = SubCategoria.objects.get(id=id_dato)
+                    equipo.delete()
+                    return JsonResponse({'success': True, 'message': 'Equipo eliminado correctamente'})
+                except SubCategoria.DoesNotExist:
+                    return JsonResponse({'success': False, 'message': 'Equipo no encontrada'})
+            elif tipo_dato == 'talla':
+                try:
+                    talla = Size.objects.get(id = id_dato)
+                    talla.delete()
+                    return JsonResponse({'success': True, 'message': 'Talla eliminado correctamente'})
+                except SubCategoria.DoesNotExist:
+                    return JsonResponse({'success': False, 'message': 'Talla no encontrada'})
         return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
 
     def viewsAgregarDatos(request):
@@ -149,21 +171,59 @@ class ViewDatos(View):
                         return JsonResponse(response_data)
                     else:
                         return JsonResponse({'success': False, 'errors':formLiga.errors})
-
-
-            # Para GET requests o cualquier otro caso
+                elif 'submit-equipos' in request.POST:
+                    formEquipos = FormsAddSubcategorias(request.POST)
+                    if formEquipos.is_valid():
+                        nuevo_Equipo = formEquipos.save()
+                        response_data = {
+                            'success' : True,
+                            'new_equipo' : {
+                                'id': nuevo_Equipo.id,
+                                'name' : nuevo_Equipo.name,
+                                'id_CategoriasCamisetas': nuevo_Equipo.id_CategoriasCamisetas.id,
+                                'categoria_name': nuevo_Equipo. id_CategoriasCamisetas.name, #Pasar el nombre de Liga para renderizar
+                            }
+                        }
+                        return JsonResponse(response_data)
+                    else:
+                        return JsonResponse({'success': False, 'errors':formEquipos.errors})
+                elif 'submit-tallas' in request.POST:
+                    formTallas = FormsAddSize(request.POST)
+                    if formTallas.is_valid():
+                        nueva_talla = formTallas.save()
+                        response_data = {
+                            'success': True,
+                            'new_talla': {
+                                'id' : nueva_talla.id,
+                                'name': nueva_talla.name,
+                            }
+                        }
+                        return JsonResponse(response_data)
+                    else:
+                        return JsonResponse({
+                            'success': False,
+                            'errors':formTallas.errors
+                        })
+                    
             marcas = Marca.objects.all()
             ligas = Categorias.objects.all()
+            equipos = SubCategoria.objects.all()
+            tallas = Size.objects.all()
+            formTalla = FormsAddSize()
+            formEquipos = FormsAddSubcategorias()
             formLigas = FormAddCategorias()
             form = FormsAddMarcas()
             data = {
                 'FormsAddMarca': form,
                 'marcas': marcas,
                 'ligas': ligas,
-                'FormAddLigas':formLigas
+                'FormAddLigas':formLigas,
+                'FormAddEquipos' : formEquipos,
+                'equipos':equipos,
+                'FormAddTallas': formTalla,
+                'tallas':tallas,
             }
             return render(request, './TemplatesAdmin/ADDdatos/MainAddDatos.html', data)
-
 
 #Deslogueo
 def exit(request):
