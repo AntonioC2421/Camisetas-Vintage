@@ -29,32 +29,3 @@
     color: green; 
     margin-top: 10px;
 }
-
-#exampleModalToggle2 .modal-body{
-    overflow-y: scroll;
-    height: 135px; 
-    scrollbar-width: none;
-}
-
-.modal-body .container{
-    display: flex; 
-    justify-content: space-evenly;
-}
-
-.modelfooterlist{
-    display: flex; 
-    justify-content: space-between;
-}
-
-.imgacceso div{
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-}
-
-.imgacceso div img{
-    width: 80%; 
-    padding: 2px; 
-    border-radius: 5px; 
-    cursor: pointer;
-}

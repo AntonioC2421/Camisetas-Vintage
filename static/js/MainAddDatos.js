@@ -69,7 +69,7 @@ $(document).ready(function () {
                         $('#successMessage').fadeOut('slow');
                     }, 2000);
                 } else {
-                    console.log('Errors:', response.errors);  
+                    console.log('Errors:', response.errors);
                 }
             },
             error: function () {
@@ -342,4 +342,23 @@ $(document).ready(function () {
         });
     }
     assignDeleteMarcaEvent();
+});
+
+$(document).ready(function() {
+    function checkModalsClosed() {
+        // Verifica si ambos modales están cerrados
+        if (!$('#exampleModalToggleLigas').hasClass('show') && !$('#exampleModalToggleLigas2').hasClass('show')) {
+            location.reload(); // Recargar página si ambos modales están cerrados
+        }
+    }
+
+    // Evento al cerrar el primer modal (Agregar Ligas)
+    $('#exampleModalToggleLigas').on('hidden.bs.modal', function () {
+        checkModalsClosed(); // Verifica si ambos modales están cerrados
+    });
+
+    // Evento al cerrar el segundo modal (Listado de Ligas)
+    $('#exampleModalToggleLigas2').on('hidden.bs.modal', function () {
+        checkModalsClosed(); // Verifica si ambos modales están cerrados
+    });
 });

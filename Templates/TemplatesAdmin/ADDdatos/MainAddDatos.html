@@ -76,7 +76,7 @@
         </nav>
     </div>
 
-    <div class="conteAdmin"  style="display: grid; place-content: center;">
+    <div class="conteAdmin" style="display: grid; place-content: center;">
         <div class="modal fade" id="exampleModalToggleMarca" aria-hidden="true"
             aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -114,7 +114,8 @@
                         {% for i in marcas %}
                         <div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>{{ i.name }}</h3>
-                            <button class="btn btn-danger delete-marca" id="marca-{{ i.id }}" data-id="{{ i.id }}" data-type="marca">
+                            <button class="btn btn-danger delete-marca" id="marca-{{ i.id }}" data-id="{{ i.id }}"
+                                data-type="marca">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -130,7 +131,7 @@
         </div>
 
         <!--MODAL DE LIGAS-->
-        <div class="modal fade" id="exampleModalToggleLigas" aria-hidden="true"
+        <div class="modal modalpri fade" id="exampleModalToggleLigas" aria-hidden="true"
             aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -162,11 +163,12 @@
                         <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Listado de ligas</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div id="ligaContainer" class="modal-body row">
+                    <div id="ligaContainer" class="modal-body row"  style="overflow-y: scroll;height: 135px; scrollbar-width: none;">
                         {% for i in ligas %}
-                        <div class="container p-2 col-lg-6">
+                        <div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>{{ i.name }}</h3>
-                            <button class="btn btn-danger delete-liga" id="liga-{{ i.id }}" data-id="{{ i.id }}" data-type="liga">
+                            <button class="btn btn-danger delete-liga" id="liga-{{ i.id }}" data-id="{{ i.id }}"
+                                data-type="liga">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -181,7 +183,6 @@
             </div>
         </div>
 
-
         <!--MODAL DE EQUIPOS-->
         <div class="modal fade" id="exampleModalToggleEquipos" aria-hidden="true"
             aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -192,12 +193,27 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" id="form-add-equipos">
+                        <form method="POST" id="form-add-equipos">
                             {% csrf_token %}
-                            <label for="name">Nombre:</label>{{ FormAddEquipos.name }}
-                            <label for="name">Liga:</label>{{ FormAddEquipos.id_CategoriasCamisetas }}
+                            <!-- Campo para el nombre del equipo -->
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Nombre del equipo" required>
+                            </div>
+                            <!-- Campo para seleccionar la Liga -->
+                            <div class="form-group">
+                                <label for="id_CategoriasCamisetas">Liga:</label>
+                                <select class="form-control" id="id_CategoriasCamisetas" name="id_CategoriasCamisetas"
+                                    required>
+                                    {% for option in FormAddEquipos.id_CategoriasCamisetas.field.choices %}
+                                    <option value="{{ option.0 }}">{{ option.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
                             <input type="hidden" name="submit-equipos">
-                            <button type="submit" class="btn btn-primary">Agregar Equipo</button>
+                            <button type="submit" class="btn btn-primary mt-3 ">Agregar Equipo</button>
                         </form>
                         <div id="successMessageEquipo" style="display: none; color: green; margin-top: 10px;"></div>
                     </div>
@@ -216,12 +232,13 @@
                         <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Listado de equipos</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div id="EquipoContainer" class="modal-body row">
+                    <div id="EquipoContainer" class="modal-body row" style="overflow-y: scroll;height: 135px; scrollbar-width: none;">
                         {% for i in equipos %}
-                        <div class="container p-2 col-lg-6">
+                        <div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>{{ i.name }}</h3>
                             <p>{{i.id_CategoriasCamisetas}}</p>
-                            <button class="btn btn-danger delete-equipo" id="equipo-{{ i.id }}" data-id="{{ i.id }}" data-type="equipo">
+                            <button class="btn btn-danger delete-equipo" id="equipo-{{ i.id }}" data-id="{{ i.id }}"
+                                data-type="equipo">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -269,11 +286,12 @@
                         <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Listado de Tallas</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div id="TallaContainer" class="modal-body row">
+                    <div id="TallaContainer" class="modal-body row" style="overflow-y: scroll;height: 135px; scrollbar-width: none;">
                         {% for i in tallas %}
-                        <div class="container p-2 col-lg-6">
+                        <div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>{{ i.name }}</h3>
-                            <button class="btn btn-danger delete-talla" id="talla-{{ i.id }}" data-id="{{ i.id }}" data-type="talla">
+                            <button class="btn btn-danger delete-talla" id="talla-{{ i.id }}" data-id="{{ i.id }}"
+                                data-type="talla">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -287,34 +305,32 @@
                 </div>
             </div>
         </div>
-
-        <div class="container row imgacceso">
-            <div class="col-lg-6 col-md-12" style="display: flex; justify-content: center; align-items: center;">
-                <p>Ingreso de Marcas</p>
-                <img src="{% static 'imagenes/image.png' %}"
-                    style="width: 80%; padding: 2px; border-radius: 5px; cursor: pointer;"
-                    data-bs-target="#exampleModalToggleMarca" data-bs-toggle="modal">
-            </div>
-
-            <div class="col-lg-6 col-md-12" style="display: flex; justify-content: center; align-items: center;">
-                <p>Ingreso de Ligas</p>
-                <img src="{% static 'imagenes/image.png' %}" data-bs-target="#exampleModalToggleLigas"
-                    data-bs-toggle="modal">
-            </div>
-
-            <div class="col-lg-6 col-md-12" style="display: flex; justify-content: center; align-items: center;">
-                <p>Ingreso de equipos</p>
-                <img src="{% static 'imagenes/image.png' %}" data-bs-target="#exampleModalToggleEquipos"
-                    data-bs-toggle="modal">
-            </div>
-
-            <div class="col-lg-6 col-md-12" style="display: flex; justify-content: center; align-items: center;">
-                <p>Ingreso de tallas</p>
-                <img src="{% static 'imagenes/image.png' %}" data-bs-target="#exampleModalToggleTallas"
-                    data-bs-toggle="modal">
+    </div>
+    <div class="container-fluid row p-3">
+        <div class="col-lg-6 col-md-12 col-sm-12" style="display: grid; place-content: center; position: relative;">
+            <img src="{% static 'imagenes/agregar-datos.jpeg' %}" class="btn" data-bs-target="#exampleModalToggleLigas" data-bs-toggle="modal" height="250px">
+            <div class="text-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgb(223, 8, 8); font-size: 24px;">
+                <h2>Agregar Marcas</h2>
             </div>
         </div>
-
+        <div class="col-lg-6 col-md-12 col-sm-12" style="display: grid; place-content: center; position: relative;">
+            <img src="{% static 'imagenes/agregar-datos.jpeg' %}" class="btn" data-bs-target="#exampleModalToggleLigas" data-bs-toggle="modal" height="250px">
+            <div class="text-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgb(223, 8, 8); font-size: 24px;">
+                <h2>Agregar Ligas</h2>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12" style="display: grid; place-content: center; position: relative;">
+            <img src="{% static 'imagenes/agregar-datos.jpeg' %}" class="btn" data-bs-target="#exampleModalToggleLigas" data-bs-toggle="modal" height="250px">
+            <div class="text-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgb(223, 8, 8); font-size: 24px;">
+                <h2>Agregar Equipos</h2>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12" style="display: grid; place-content: center; position: relative;">
+            <img src="{% static 'imagenes/agregar-datos.jpeg' %}" class="btn" data-bs-target="#exampleModalToggleLigas" data-bs-toggle="modal" height="250px">
+            <div class="text-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgb(223, 8, 8); font-size: 24px;">
+                <h2>Agregar Tallas</h2> 
+            </div>
+        </div>
     </div>
 
     <input type="hidden" id="add-datos-url" value="{% url 'ViewsAdmin:AddDatos' %}">
