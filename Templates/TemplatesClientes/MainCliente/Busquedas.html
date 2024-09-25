@@ -1,0 +1,30 @@
+{% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        {% if teams %}
+        <div class="container SubTitulos">
+            <h4>Busqueda para '{{query}}'</h4>
+        </div>
+        <img class="control prev" src="{% static 'imagenes/prev.png' %}">
+        <div class="slider">
+            {% for team in teams %}
+            <div class="col-6 col-md-3" style="padding: 2px;">
+                {% if team.img %}
+                <img id="imgBox" src="{{ team.img.url }}" class="img-thumbnail w-100">
+                {% else %}
+                <img id="imgBox" src="{% static 'imagenes/eror.jpg'%}" class="img-thumbnail w-100">
+                {% endif %}
+                <div class="container">
+                    <p><a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">{{team.name}}</a></p>
+                    <p>$ {{ team.precio|floatformat:0 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <img class="control next" src="{% static 'imagenes/next.png' %}">
+        {% else %}
+        <h2>NO SE ECUEENTRA '{{query}}'</h2>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -14,5 +14,6 @@ urlpatterns = [
     path('ViewAdmin/AddCamiseta/ChangeInfoCod/<int:id_cod>', views.ChangeInfoCod, name='ChangeInfoCod'),
     path('ViewAdmin/AddDatos/', views.ViewDatos.viewsAgregarDatos, name='AddDatos'),  # Asegúrate de esta URL
     path('DeleteDato/<int:id_dato>/', views.ViewDatos.eliminar_datos, name='delete_marca'),
+    path('loginVintage/',views.redirigir_usuario, name='redirigir_usuario'),
     path('exit/', views.exit, name='exit'),
 ]

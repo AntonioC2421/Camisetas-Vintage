@@ -1,18 +1,43 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import logout,login,authenticate
 from django.shortcuts import redirect
 from .forms import *
 from .models import *
 from django.views import View
 from django.http import JsonResponse
+from django.views.generic import FormView
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.decorators import method_decorator
+# Decorador para verificar si el usuario es admin
+def admin_required(view_func):
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_staff:
+            return view_func(request, *args, **kwargs)
+        else:
+            # Redirige a la vista deseada sin el parámetro next
+            return redirect('ViewsClient:MainPrincipalCliente')  # Cambia esto a la vista que desees
+    return _wrapped_view
+
+@login_required
+def redirigir_usuario(request): #redirigir según usuario
+    if request.user.is_staff:
+        return redirect('ViewsAdmin:PrincipalAdmin')  # Vista del administrador
+    else:
+        return redirect('ViewsClient:MainPrincipalCliente')  # Vista para el cliente
+
+def is_admin(user): #Verificar si es Admin o Cliente
+    return user.is_staff
 
 #Pagina Principal de el Admin
 @login_required
+@admin_required  # Usa el decorador aquí
 def MainPrincipal(request):
     return render(request, './TemplatesAdmin/Principal/Principal.html')
 
 #Sección ADDMINISTRACIÓN DE CAMISETAS
+@login_required
+@admin_required 
 def ADDcamisetas(request):
     cam = ADDcamisetasForm()
 
@@ -75,6 +100,8 @@ def DeleteTeam(request, id_team):
     return render(request,'./TemplatesAdmin/ADDcamisetas/DeleteCamisetas.html', {'id_team': id_team})
 
 #Sección CODIGOS PROMOCIONALES
+@login_required
+@admin_required 
 def CodiPromoViews(request):
     forcodi = FormCodPromo()
     data = {'FormCodProm' : forcodi}
@@ -106,6 +133,7 @@ def DeleteCodPromo(request, id_cod):
 
 #sección AGREGAR: Marcas, Ligas, Equipo
 class ViewDatos(View):
+    
     def eliminar_datos(request, id_dato):
         if request.method == 'POST':
             # Obtener el valor del tipo de dato enviado desde el POST
@@ -139,7 +167,8 @@ class ViewDatos(View):
                 except SubCategoria.DoesNotExist:
                     return JsonResponse({'success': False, 'message': 'Talla no encontrada'})
         return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
-
+    @login_required
+    @admin_required 
     def viewsAgregarDatos(request):
             if request.method == 'POST':
                 if 'submit-marca' in request.POST:

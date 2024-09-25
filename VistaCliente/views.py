@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from VistaAdmin.models import Categorias, SubCategoria,Teams,Size,TeamsImgs,Marca,CodigoPromocional
 from django.core.serializers import serialize
+from django.db.models import Q #Consultas para la barra de busqueda
 
 def MainPrincipalCliente(request):
     Equipo = Teams.objects.all().order_by('-id')[0:8]
@@ -34,3 +35,21 @@ def DetalleCamiseta(request, id):
     Detalle = Teams.objects.filter(id = id)
     data = {'imgs':DetallesImG, "deta" : Detalle}
     return render(request, './TemplatesClientes/DetalleCamiseta/DetalleCamiseta.html',data)
+
+def Search(request):
+    query = request.GET.get('q')  # Obtiene la consulta de búsqueda
+    teambus = None
+    
+    if query:  # Si hay una consulta, se ejecuta la búsqueda
+        # Busca subcategorías cuyos nombres coincidan parcialmente con la consulta
+        subcategorias = SubCategoria.objects.filter(name__icontains=query)
+        
+        # Filtra los equipos basados en:
+        # 1. El nombre del equipo que coincida con la búsqueda
+        # 2. Los equipos que pertenezcan a subcategorías que coincidan con la búsqueda
+        teambus = Teams.objects.filter(
+            Q(name__icontains=query) |  # Busca por nombre de equipo
+            Q(id_SubCategoria__in=subcategorias)  # Busca por subcategoría relacionada
+        )
+
+    return render(request, 'TemplatesClientes/MainCliente/Busquedas.html', {'teams': teambus, 'query': query})

@@ -28,11 +28,27 @@
                     <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
                 </a>
             </div>
-            <div class="container px-3 bodyRetro row">
-                <a class="col-lg-4 col-md-12 col-sm-12" href="{% url 'ViewsAdmin:PrincipalAdmin' %}">Cuenta</a>
-                <a class="col-lg-4 col-md-12 col-sm-12" href="">Busqueda</a>
+            <div class="container px-3 bodyRetro bg-warning " style="display: grid; place-content: center;">
+                <div class="container-fluid bg-secondary" style="float: inline-start;">
+                    <a class="col-lg-4 col-md-12 col-sm-12" href="{% url 'ViewsAdmin:redirigir_usuario' %}">Cuenta</a>
+                    {% if user.is_authenticated %}
+                    <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}">
+                        <i class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesión</i>
+                    </a>
+                    {% endif %}
+                    <a class="col-lg-4 col-md-12 col-sm-12" type="button" onclick="toggleBusqueda()">Busqueda</a>
+                    <a class="col-lg-4 col-md-12 col-sm-12" href="">Carro</a>
+                </div>
+                <div class="container" style="background-color: rgb(207, 141, 141); display: none;" id="barra_busqueda">
+                    <form class="d-flex" action="{% url 'ViewsClient:Search' %}" method="get">
+                        <input type="text" class="form-control" name="q" placeholder="Busca tu equipo">
+                        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                    </form>
+                </div>
             </div>
+
         </div>
+
         <div class="container-fluid">
             <!--nombres de las ligas-->
             {% if category %}
@@ -97,6 +113,16 @@
     </div>
     <!-- Enlace al archivo JavaScript estático -->
     <script src="{% static 'js/IndexCliente.js' %}"></script>
+    <script>
+        function toggleBusqueda() {
+            var barra = document.getElementById('barra_busqueda');
+            if (barra.style.display === 'none' || barra.style.display === '') {
+                barra.style.display = 'block';
+            } else {
+                barra.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

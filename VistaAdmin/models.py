@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Size(models.Model):
     name = models.CharField(max_length=10)
@@ -51,4 +51,20 @@ class TeamsImgs(models.Model):
     imagen = models.ImageField(upload_to='imgCamisetasVintage/', blank=True, null=True)
 
     def __str__(self):
-        return f'Foto de camiseta: {self.teams}' 
+        return f'Foto de camiseta: {self.teams}'
+
+class Model_Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client_profile')
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    rut = models.CharField(max_length=9, unique=True)
+    def __str__(self):
+        return str(self.rut)
+    
+class Model_shopping_cart(models.Model):
+    fecha= models.DateTimeField('Fecha')
+    id_Teams = models.ForeignKey(Teams,on_delete=models.CASCADE)
+    id_cliente = models.ForeignKey(Model_Client,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id_Teams)
