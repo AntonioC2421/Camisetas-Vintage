@@ -1,14 +1,13 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout,login,authenticate
 from django.shortcuts import redirect
 from .forms import *
 from .models import *
 from django.views import View
 from django.http import JsonResponse
-from django.views.generic import FormView
-from django.contrib.auth.forms import AuthenticationForm
-from django.utils.decorators import method_decorator
+
+
 # Decorador para verificar si el usuario es admin
 def admin_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
@@ -21,10 +20,11 @@ def admin_required(view_func):
 
 @login_required
 def redirigir_usuario(request): #redirigir según usuario
-    if request.user.is_staff:
-        return redirect('ViewsAdmin:PrincipalAdmin')  # Vista del administrador
-    else:
-        return redirect('ViewsClient:MainPrincipalCliente')  # Vista para el cliente
+    
+        if request.user.is_staff and request.user.is_active:
+            return redirect('ViewsAdmin:PrincipalAdmin')  # Vista del administrador
+        elif not request.user.is_staff and request.user.is_active:
+            return redirect('ViewsClient:MainPrincipalCliente')  # Vista para el cliente
 
 def is_admin(user): #Verificar si es Admin o Cliente
     return user.is_staff
@@ -78,7 +78,6 @@ def DeleteImg(request, img_id):
     team_id= request.POST['img_id']
     img.delete()
     return redirect ('ViewsAdmin:ADDimgcamisetas', id = team_id)
-
 
 def ChangeInfoCamiseta(request,id_team):
     team = Teams.objects.get(id = id_team)
@@ -253,6 +252,26 @@ class ViewDatos(View):
                 'tallas':tallas,
             }
             return render(request, './TemplatesAdmin/ADDdatos/MainAddDatos.html', data)
+
+def ViewsAddCliente(request):
+    form = FormsAddCliente()
+    if request.method == 'POST':
+        form = FormsAddCliente(request.POST)
+        if form.is_valid():
+            # Guardar el nuevo cliente
+            client = form.save()
+
+            # Autenticar al usuario recién creado
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user) # Iniciar sesión automáticamente
+                return redirect('ViewsClient:MainPrincipalCliente')#Redirigir a la vista de cliente
+
+    data = {'formAddCliente': form}
+    return render(request, './authentication/CreateUser.html', data)
 
 #Deslogueo
 def exit(request):

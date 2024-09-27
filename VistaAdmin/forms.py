@@ -1,5 +1,7 @@
 from .models import *
 from django import forms
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class ADDcamisetasForm(forms.ModelForm):
     class Meta:
@@ -40,3 +42,44 @@ class FormsAddMarcas(forms.ModelForm):
     class Meta:
         model = Marca
         fields = '__all__'
+
+class FormsAddCliente(forms.ModelForm):
+    # Campos adicionales para el registro del usuario
+    username = forms.EmailField( #Hice cambio en vez de nombre de usuario, un correo
+        label="Correo Electrónico:",
+        required=True,  # Para que sea obligatorio
+        widget=forms.EmailInput(attrs={'placeholder': 'example@gmail.com'})  # Placeholder opcional
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput,
+        label="Contraseña:",
+        help_text='Requerido. Ingrese una contraseña segura.'
+    )
+    
+    class Meta:
+        model = Model_Client
+        fields = ['nombre','apellido', 'rut']  # Los campos del cliente
+
+    # Sobrescribir el método save para crear tanto el usuario como el cliente
+    def save(self, commit=True):
+        # Crear el usuario primero
+        user = User.objects.create_user(
+            username=self.cleaned_data['username'],
+            password=self.cleaned_data['password']
+        )
+        
+        # Luego crear el cliente asociado al usuario
+        client = super(FormsAddCliente, self).save(commit=False)
+        client.user = user  # Asignar el usuario al cliente
+
+        if commit:
+            client.save()
+        
+        return client
+
+    # Validación para asegurarse de que el correo electrónico sea único
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Este correo electrónico ya está en uso.")
+        return username

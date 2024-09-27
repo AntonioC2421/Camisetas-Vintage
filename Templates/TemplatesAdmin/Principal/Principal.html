@@ -21,7 +21,7 @@
         <nav class="navbar fixed-top"
             style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
             <div class="container-fluid">
-                <a href="{% url 'ViewsAdmin:PrincipalAdmin' %}">
+                <a href="{% url 'ViewsClient:MainPrincipalCliente' %}">
                     <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
                 </a>
                 
@@ -56,17 +56,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Reporte de Ventas</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">Pedidos</a>
-                                <ul class="dropdown-menu dropdown-menu-dark">
-                                    <li><a class="dropdown-item" href="#">Pedidos Pendientes</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Pedidos Realizados</a></li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -89,13 +78,6 @@
                 <a href="">
                     <img src="{% static 'imagenes/REPORTimgg.jpeg' %}" alt="">
                     <h2 class="ItemTitle">Reporte de ventas</h2>
-                </a>
-            </div>
-
-            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
-                <a href="">
-                    <img src="{% static 'imagenes/PedidosImgg.jpeg' %}" alt="">
-                    <h2 class="ItemTitle">Pedidos</h2>
                 </a>
             </div>
 

@@ -12,8 +12,9 @@ urlpatterns = [
     path('ViewsAdmin/CodiPromo', views.CodiPromoViews, name='CodPromUrl'),
     path('ViewsAdmin/CodiPromo/DeleteCod/<int:id_cod>', views.DeleteCodPromo, name='deletecod'),
     path('ViewAdmin/AddCamiseta/ChangeInfoCod/<int:id_cod>', views.ChangeInfoCod, name='ChangeInfoCod'),
-    path('ViewAdmin/AddDatos/', views.ViewDatos.viewsAgregarDatos, name='AddDatos'),  # Asegúrate de esta URL
+    path('ViewAdmin/AddDatos/', views.ViewDatos.viewsAgregarDatos, name='AddDatos'),
     path('DeleteDato/<int:id_dato>/', views.ViewDatos.eliminar_datos, name='delete_marca'),
     path('loginVintage/',views.redirigir_usuario, name='redirigir_usuario'),
+    path('RegistrationUser/', views.ViewsAddCliente, name='CreateUser'),
     path('exit/', views.exit, name='exit'),
 ]
