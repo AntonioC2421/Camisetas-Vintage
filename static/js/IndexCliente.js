@@ -19,5 +19,5 @@ function toggleBusqueda() {
         barraBusqueda.style.display = 'block';
     } else {
         barraBusqueda.style.display = 'none';
-    }
+    } 
 }
