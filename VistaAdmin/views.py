@@ -53,6 +53,7 @@ def ADDcamisetas(request):
 
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html', data)
 
+<<<<<<< HEAD
 from django.http import JsonResponse
 from django.utils import timezone
 @login_required
@@ -100,6 +101,8 @@ def AddItemCart(request):
         else:
             return JsonResponse({'success': False, 'message': 'Faltan datos requeridos'})
 
+=======
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 def ADDimgCamiseta(request, id):
     team = Teams.objects.get(id=id)
     addimgform = ADDimgCamisetas()
@@ -210,7 +213,11 @@ class ViewDatos(View):
                     talla = Size.objects.get(id = id_dato)
                     talla.delete()
                     return JsonResponse({'success': True, 'message': 'Talla eliminado correctamente'})
+<<<<<<< HEAD
                 except Size.DoesNotExist:
+=======
+                except SubCategoria.DoesNotExist:
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
                     return JsonResponse({'success': False, 'message': 'Talla no encontrada'})
         return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
     @login_required

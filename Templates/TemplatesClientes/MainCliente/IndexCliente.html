@@ -15,8 +15,11 @@
     <title>Home Retro</title>
     <!-- Enlace al archivo CSS estático -->
     <link rel="stylesheet" href="{% static 'css/IndexCliente.css' %}">
+<<<<<<< HEAD
     <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+=======
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 </head>
 
 <body>
@@ -30,6 +33,7 @@
                     <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
                 </a>
             </div>
+<<<<<<< HEAD
             <div class="container bodyRetro">
                 <div>
                     <a href="{% url 'ViewsAdmin:redirigir_usuario' %}">Cuenta</a>
@@ -37,10 +41,23 @@
                     {% if user.is_authenticated %}
                     <a href="" data-bs-toggle="offcanvas" data-bs-target="#miOffcanvas"
                         aria-controls="miOffcanvas">Carro</a>
+=======
+            <div class="container px-3 bodyRetro" style="display: grid; place-content: center;">
+                <div class="container-fluid" style="float: inline-start;">
+                    <a class="col-lg-4 col-md-12 col-sm-12" href="{% url 'ViewsAdmin:redirigir_usuario' %}">Cuenta</a>
+                    {% if user.is_authenticated %}
+                    <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}">
+                        <i class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesión</i>
+                    </a>
+                    <a class="col-lg-4 col-md-12 col-sm-12" href="" data-bs-toggle="offcanvas"
+                        data-bs-target="#miOffcanvas" aria-controls="miOffcanvas">Carro</a>
+
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
                     <!-- Contenido del offcanvas -->
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="miOffcanvas"
                         aria-labelledby="miOffcanvasLabel">
                         <div class="offcanvas-header">
+<<<<<<< HEAD
                             <div class="container-fluid" style="text-align: center;">
                                 <h5 class="offcanvas-title" id="miOffcanvasLabel">hola!! {{users}}</h5>
                             </div>
@@ -92,6 +109,35 @@
                 </div>
             </div>
         </div>
+=======
+                            <h5 class="offcanvas-title" id="miOffcanvasLabel">Menú lateral</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>Aquí puedes poner tu contenido, como enlaces o información.</p>
+                            <ul>
+                                <li>Enlace 1</li>
+                                <li>Enlace 2</li>
+                                <li>Enlace 3</li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <a class="col-lg-4 col-md-12 col-sm-12" type="button" onclick="toggleBusqueda()">Busqueda</a>
+                </div>
+
+                <div class="container" style="background-color: rgb(207, 141, 141); display: none;" id="barra_busqueda">
+                    <form class="d-flex" action="{% url 'ViewsClient:Search' %}" method="get">
+                        <input type="text" class="form-control" name="q" placeholder="Busca tu equipo">
+                        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
         <div class="container-fluid">
             <!--nombres de las ligas-->
             {% if category %}
@@ -109,6 +155,7 @@
     </div>
 
     <div class="conte">
+<<<<<<< HEAD
         <div class="container" style="display: none;" id="barra_busqueda">
             <form class="d-flex" action="{% url 'ViewsClient:Search' %}" method="get">
                 <input type="text" class="form-control" name="q" placeholder="Busca tu equipo">
@@ -119,6 +166,11 @@
         <div class="container">
             {% if equipos %}
             <div class="container SubTitulos py-2">
+=======
+        <div class="container">
+            {% if equipos %}
+            <div class="container SubTitulos">
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
                 <h4>NEWS</h4>
             </div>
             <img class="control prev" src="{% static 'imagenes/prev.png' %}">
@@ -134,7 +186,12 @@
                         <p><a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">{{team.name}}</a></p>
                         <p>$ {{ team.precio|floatformat:0 }}</p>
                     </div>
+<<<<<<< HEAD
                 </div>{% endfor %}
+=======
+                </div>
+                {% endfor %}
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
             </div>
             <img class="control next" src="{% static 'imagenes/next.png' %}">
             {% endif %}
@@ -160,12 +217,27 @@
             </div>
         </footer>
     </div>
+<<<<<<< HEAD
 
     <!--Envio de Url a CarroDeCompras.js-->
     <input type="hidden" id="delete-item-url" value="{% url 'ViewsClient:DeleteItem' 0 %}">
     <!-- Enlace al archivo JavaScript estático -->
     <script src="{% static 'js/IndexCliente.js' %}"></script>
     <script src="{% static 'js/CarroDeCompras.js' %}"></script>
+=======
+    <!-- Enlace al archivo JavaScript estático -->
+    <script src="{% static 'js/IndexCliente.js' %}"></script>
+    <script>
+        function toggleBusqueda() {
+            var barra = document.getElementById('barra_busqueda');
+            if (barra.style.display === 'none' || barra.style.display === '') {
+                barra.style.display = 'block';
+            } else {
+                barra.style.display = 'none';
+            }
+        }
+    </script>
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 </body>
 
 </html>

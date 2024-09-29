@@ -3,15 +3,22 @@
 {% block content %}
 {% if deta %}
 {%for i in deta %}
+<<<<<<< HEAD
 <head>
     <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+=======
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 <div class="container" style="width: 20%; display: grid; place-items: center;">
     {% for e in imgs %}
     <img src="{{ e.imagen.url }}" style="width: 170px; padding: 10px;">
     {% endfor %}
 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 <div class="container" style="width: 40%; padding: 10px;">
     <img src="{{ i.img.url }}" width="100%">
 </div>
@@ -25,6 +32,7 @@
         <p>{{i.id_SubCategoria}}</p>
         <p>{{i.year}}</p>
         <p>{{i.id_Marca}}</p>
+<<<<<<< HEAD
         
         <form id="addItemCartForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -41,6 +49,17 @@
     <input type="hidden" id="addItemCart-url" value="{% url 'ViewsAdmin:AddItemsCart'%}">
 </div>
 <script src="{% static 'js/CarroDeCompras.js' %}"></script>
+=======
+        <div class="input-group input-group-sm mb-3">
+            <button class="input-group-text" id="inputGroup-sizing-sm">Canjear</button> <!--VALIDAR CODIGO Y PROCEDER CON EL DESCUENTO-->
+            <input type="text" class="form-control" placeholder="Código promocional" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <button class="container" style="border:  2px solid black; text-align: center; align-content: center; display: block; padding: 7px; background-color: rgb(15, 48, 77);">
+            <p style="margin: auto; color: aliceblue;">ADD TO CART</p>
+        </button>
+    </div>
+</div>
+>>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 {% endfor %}
 {% endif %}
 {% endblock %}
