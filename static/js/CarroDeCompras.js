@@ -107,4 +107,4 @@ function sumarPrecios() {
     document.getElementById('totalPrecio').textContent = total; // Muestra el total en el DOM
 }
 // Ejecuta la función cuando se cargue la página o cada vez que se necesite recalcular
-window.onload = sumarPrecios;
+window.onload = sumarPrecios; 
