@@ -1,0 +1,22 @@
+{% extends 'TemplatesAdmin/CodigosPromocionales/CodPromo.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Mantenemos el contenido existente -->
+{{ block.super }}
+<!-- Agregamos el modal encima del contenido -->
+<div class="overlay"></div>
+<div class="ventanaAddImg p-3" id="ventImg">
+    <div style="display: flex; justify-content: end; align-items: end;">
+        <a href="{% url 'ViewsAdmin:CodPromUrl' %}" type="button" class="btn-close" aria-label="Close"></a>
+    </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ ChangeInfo | crispy }}
+
+        <button type="submit" class="btn btn-success" name="submit_cam">Editar Información</button>
+    </form>
+    
+</div>
+{% endblock %}

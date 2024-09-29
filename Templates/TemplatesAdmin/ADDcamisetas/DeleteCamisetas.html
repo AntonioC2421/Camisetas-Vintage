@@ -1,0 +1,25 @@
+{% extends 'TemplatesAdmin/ADDcamisetas/ADDcamisetas.html' %}
+{% load static %}
+{% load filtros %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Mantenemos el contenido existente -->
+{{ block.super }}
+<!-- Agregamos el modal encima del contenido -->
+<div class="overlay"></div>
+<div class="ventanaAddImg" id="ventImg">
+    <div style="display: flex; justify-content: end; align-items: end;">
+        <a href="{% url 'ViewsAdmin:ADDcamisetas' %}" type="button" class="btn-close" aria-label="Close"></a>
+    </div>
+    <h2 style="text-align: center;">WARNING!!</h2>
+    <hr>
+    <p>Al presionar 'Eliminar' se eliminará toda la información de este registro</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id_team" value="{{id_team}}">
+        <div class="d-grid gap-2">
+            <button class="btn btn-danger" type="submit">Eliminar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

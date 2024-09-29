@@ -1,0 +1,29 @@
+{% extends 'TemplatesAdmin/ADDcamisetas/ADDcamisetas.html' %}
+{% load static %}
+{% load filtros %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Mantenemos el contenido existente -->
+{{ block.super }}
+<!-- Agregamos el modal encima del contenido -->
+<div class="overlay"></div>
+<div class="ventanaAddImg p-3" id="ventImg">
+    <div style="display: flex; justify-content: end; align-items: end;">
+        <a href="{% url 'ViewsAdmin:ADDcamisetas' %}" type="button" class="btn-close" aria-label="Close"></a>
+    </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="p-2"><label for="id_foto">Fotos:</label>{{ ChangeInfo.img }}</div>
+        <div class="p-2"><label for="id_nombre">Nombre:</label>{{ ChangeInfo.name }}</div>
+        <div class="p-2"><label for="id_year">Año:</label>{{ ChangeInfo.year }}</div>
+        <div class="p-2"><label for="id_precio">Precio:</label>{{ ChangeInfo.precio }}</div>
+        <div class="p-2"><label for="id_equipo">Equipo:</label>{{ ChangeInfo.id_SubCategoria }}</div>
+        <div class="p-2"><label for="id_equipo">Talla:</label>{{ ChangeInfo.id_Size }}</div>
+        <div class="p-2"><label for="id_equipo">Marca:</label>{{ ChangeInfo.id_Marca }}</div>
+
+        <button type="submit" class="btn btn-success" name="submit_cam">Editar Información</button>
+    </form>
+    
+</div>
+{% endblock %}

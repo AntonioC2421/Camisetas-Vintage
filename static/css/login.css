@@ -1,0 +1,17 @@
+.login {
+    display: grid;
+    place-items: center;
+    width: 70vh;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.login .logintext{
+    text-align: center;
+}
+
+.login .loginform a {
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+}

@@ -1,0 +1,53 @@
+{% extends 'TemplatesAdmin/ADDcamisetas/ADDcamisetas.html' %}
+{% load static %}
+{% load filtros %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Mantenemos el contenido existente -->
+{{ block.super }}
+<!-- Agregamos el modal encima del contenido -->
+<div class="overlay"></div>
+<div class="ventanaAddImg" id="ventImg">
+    <div class="container" style="border: 1px solid rgb(226, 226, 226); border-radius: 5px; padding: 15px;">
+        <div style="display: flex; justify-content: end; align-items: end;">
+            <a href="{% url 'ViewsAdmin:ADDcamisetas' %}" type="button" class="btn-close" aria-label="Close"></a>
+        </div>
+
+        <h3 style="text-align: center;">Agregar Fotos</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ FormAddImg | crispy }}
+            <button class="btn btn-primary" type="submit" name="submit_img">Agregar Imagen</button>
+        </form>
+        <hr>
+
+        <div class="container row">
+            {% if imgs %}
+            <img class="control prev" src="{% static 'imagenes/prev.png' %}">
+            <div class="slider">
+                {% for i in imgs %}
+                <div class="col-6">
+                    <div style="display: grid; place-content: center;">
+                        {% if i.imagen %}
+                        <img src="{{ i.imagen.url }}" style="width: 100px;">
+                        {% else %}
+                        <img src="{% static 'imagenes/eror.jpg' %}" style="width: 100px;">
+                        {% endif %}
+                        <form action="{% url 'ViewsAdmin:DeleteImg' i.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-danger" name="img_id" type="submit" value="{{ i.teams.id }}"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <img class="control next" src="{% static 'imagenes/next.png' %}">
+            {% endif %}
+        </div>
+    </div>
+    <!-- Enlace al archivo JavaScript estático -->
+    <script src="{% static 'js/IndexCliente.js' %}"></script>
+</div>
+{% endblock %}

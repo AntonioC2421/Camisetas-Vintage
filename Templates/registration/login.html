@@ -1,0 +1,31 @@
+{% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<div class="container login">
+    <div class="container logintext pt-4">
+        <h3>LOGIN</h3>
+        <p>Por favor ingrese su e-mail y contraseña</p>
+        <hr>
+    </div>
+    <div class="container loginform p-3">
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy}}
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+                <hr>
+                <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+                <a href="{% url 'ViewsAdmin:CreateUser' %}">Crear cuenta</a>
+            </div>
+        </form>
+       
+    </div>
+</div>
+{% endblock %}

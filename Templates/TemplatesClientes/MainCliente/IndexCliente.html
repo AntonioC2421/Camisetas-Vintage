@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <title>Home Retro</title>
+    <!-- Enlace al archivo CSS estático -->
+    <link rel="stylesheet" href="{% static 'css/IndexCliente.css' %}">
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="conteMain">
+        <header>
+            <h6 class="p-2">El rincón de lo Vintage</h6>
+        </header>
+        <div class="container-fluid ImgAndOption d-flex">
+            <div class="container d-flex icoRetro">
+                <a href="{% url 'ViewsClient:MainPrincipalCliente' %}">
+                    <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
+                </a>
+            </div>
+            <div class="container bodyRetro">
+                <div>
+                    <a href="{% url 'ViewsAdmin:redirigir_usuario' %}">Cuenta</a>
+                    <a type="button" onclick="toggleBusqueda()">Busqueda</a>
+                    {% if user.is_authenticated %}
+                    <a href="" data-bs-toggle="offcanvas" data-bs-target="#miOffcanvas"
+                        aria-controls="miOffcanvas">Carro</a>
+                    <!-- Contenido del offcanvas -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="miOffcanvas"
+                        aria-labelledby="miOffcanvasLabel">
+                        <div class="offcanvas-header">
+                            <div class="container-fluid" style="text-align: center;">
+                                <h5 class="offcanvas-title" id="miOffcanvasLabel">hola!! {{users}}</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="offcanvas-body m-2" style="border: 1px solid rgb(204, 204, 204);">
+                            <p><strong>Total Precio:</strong> <span id="totalPrecio">0</span></p>
+                            {% if datosItems %}
+                            {% for i in datosItems %}
+                            <div class="card m-2" >
+                                <h5 class="card-header">{{ i.id_Teams }}</h5>
+                                <div class="card-body d-flex" id="Item-{{ i.id }}">
+                                    <div class="d-grid gap-2 m-2" style="width: 50%;" >
+                                        <img src="{{ i.id_Teams.img.url }}" width="100%">
+                                        <button class="btn btn-primary delete-item" type="button" 
+                                            data-id="{{ i.id }}">Quitar</button>
+                                    </div>
+                                    <div class="p-2" style="width: 50%;">
+                                        <p><strong>Año:</strong> {{ i.id_Teams.year }}</p>
+                                        <p><strong>$</strong> {{ i.id_Teams.precio }}</p>
+                                        <input type="hidden" name="valorItem" class="precioItemCart" value="{{ i.id_Teams.precio }}">
+                                        <p><strong>Equipo:</strong> {{ i.id_Teams.id_SubCategoria.name }}</p>
+                                        <p><strong>Talla:</strong> {{ i.id_Teams.id_Size.name }}</p>
+                                        <p><strong>Marca:</strong> {{ i.id_Teams.id_Marca.name }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <p>no hay items</p>
+                            {% endif %}
+                            <div class="input-group input-group-sm mb-3">
+                                <button class="input-group-text" id="inputGroup-sizing-sm">Canjear</button>
+                                <!--VALIDAR CODIGO Y PROCEDER CON EL DESCUENTO-->
+                                <input type="text" class="form-control" placeholder="Código promocional"
+                                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if user.is_authenticated %}
+                    <a style="text-decoration: none; color: rgb(12, 85, 150);" href="{% url 'ViewsAdmin:exit' %}">
+                        <i class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesión</i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <!--nombres de las ligas-->
+            {% if category %}
+            <ul class="categorias">
+                {% for x in category %}
+                <li>
+                    <a href="{% url 'ViewsClient:ViewsCamiset' x.id %}">{{x.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No se encuentra ninguna</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="conte">
+        <div class="container" style="display: none;" id="barra_busqueda">
+            <form class="d-flex" action="{% url 'ViewsClient:Search' %}" method="get">
+                <input type="text" class="form-control" name="q" placeholder="Busca tu equipo">
+                <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </form>
+        </div>
+        
+        <div class="container">
+            {% if equipos %}
+            <div class="container SubTitulos py-2">
+                <h4>NEWS</h4>
+            </div>
+            <img class="control prev" src="{% static 'imagenes/prev.png' %}">
+            <div class="slider">
+                {% for team in equipos %}
+                <div class="col-6 col-md-3" style="padding: 2px;">
+                    {% if team.img %}
+                    <img id="imgBox" src="{{ team.img.url }}" class="img-thumbnail w-100">
+                    {% else %}
+                    <img id="imgBox" src="{% static 'imagenes/eror.jpg'%}" class="img-thumbnail w-100">
+                    {% endif %}
+                    <div class="container">
+                        <p><a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">{{team.name}}</a></p>
+                        <p>$ {{ team.precio|floatformat:0 }}</p>
+                    </div>
+                </div>{% endfor %}
+            </div>
+            <img class="control next" src="{% static 'imagenes/next.png' %}">
+            {% endif %}
+        </div>
+        <div class="container-fluid d-flex">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <hr>
+        <footer>
+            <div class="container-fluid p-4">
+                <div class="container">
+                    <a href=""><i class="bi bi-facebook px-2"></i></a>
+                    <a href=""><i class="bi bi-whatsapp px-2"></i></a>
+                    <a href=""><i class="bi bi-instagram px-2"></i></a>
+                    <a href=""><i class="bi bi-envelope px-2"></i></a>
+                    <a href=""><i class="bi bi-twitter-x px-2"></i></a>
+                </div>
+                <div class="container">
+                    <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
+                    <p><i> Visteté con Retro, a la mrd los comentarios </i></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!--Envio de Url a CarroDeCompras.js-->
+    <input type="hidden" id="delete-item-url" value="{% url 'ViewsClient:DeleteItem' 0 %}">
+    <!-- Enlace al archivo JavaScript estático -->
+    <script src="{% static 'js/IndexCliente.js' %}"></script>
+    <script src="{% static 'js/CarroDeCompras.js' %}"></script>
+</body>
+
+</html>
