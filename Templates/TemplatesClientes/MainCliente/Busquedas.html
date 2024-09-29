@@ -3,11 +3,7 @@
 {% block content %}
     <div class="container">
         {% if teams %}
-<<<<<<< HEAD
-        <div class="container SubTitulos py-2">
-=======
         <div class="container SubTitulos">
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
             <h4>Busqueda para '{{query}}'</h4>
         </div>
         <img class="control prev" src="{% static 'imagenes/prev.png' %}">
@@ -24,11 +20,7 @@
                     <p>$ {{ team.precio|floatformat:0 }}</p>
                 </div>
             </div>
-<<<<<<< HEAD
-            {% endfor %} 
-=======
             {% endfor %}
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
         </div>
         <img class="control next" src="{% static 'imagenes/next.png' %}">
         {% else %}

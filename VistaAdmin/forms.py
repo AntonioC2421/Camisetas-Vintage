@@ -82,7 +82,6 @@ class FormsAddCliente(forms.ModelForm):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
             raise ValidationError("Este correo electrónico ya está en uso.")
-<<<<<<< HEAD
         return username
     
 class FormAddItemCart(forms.ModelForm):
@@ -95,6 +94,3 @@ class FormAddItemCart(forms.ModelForm):
         if not fecha:
             raise forms.ValidationError("La fecha es un campo obligatorio.")
         return fecha
-=======
-        return username
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111

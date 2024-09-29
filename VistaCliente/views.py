@@ -1,22 +1,14 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 from VistaAdmin.models import SubCategoria,Teams,TeamsImgs
 from django.core.serializers import serialize
 from django.db.models import Q #Consultas para la barra de busqueda
 from VistaAdmin.models import *
 from django.http import JsonResponse
-=======
-from VistaAdmin.models import Categorias, SubCategoria,Teams,Size,TeamsImgs,Marca,CodigoPromocional
-from django.core.serializers import serialize
-from django.db.models import Q #Consultas para la barra de busqueda
-
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 def MainPrincipalCliente(request):
     Equipo = Teams.objects.all().order_by('-id')[0:8]
     imgTeam = TeamsImgs.objects.all()
     imgTeam_serialized = serialize('json', imgTeam)
     
-<<<<<<< HEAD
     if request.user.is_authenticated:  # Verifica si el usuario está autenticado
         if request.user.is_staff:
             items_cart = []
@@ -59,11 +51,6 @@ def DeleteItemsCart(request, id_item):
         except Model_shopping_cart.DoesNotExist:
             return JsonResponse({'success':False, 'message': 'Item no encontrado'})
     return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
-=======
-    data = {'equipos': Equipo,'imgTeam': imgTeam_serialized}
-    
-    return render(request, './TemplatesClientes/MainCliente/IndexCliente.html',data)
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
 
 def ViewCamisetas(request, id=None, team_id=None):
     SubCategory = SubCategoria.objects.filter(id_CategoriasCamisetas=id) #Real , Barcelona ... (Muestra los equipos de la Liga seleccionada)
@@ -93,11 +80,7 @@ def Search(request):
     query = request.GET.get('q')  # Obtiene la consulta de búsqueda
     teambus = None
     
-<<<<<<< HEAD
     if query:
-=======
-    if query:  # Si hay una consulta, se ejecuta la búsqueda
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
         # Busca subcategorías cuyos nombres coincidan parcialmente con la consulta
         subcategorias = SubCategoria.objects.filter(name__icontains=query)
         

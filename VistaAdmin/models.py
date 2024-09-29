@@ -62,17 +62,9 @@ class Model_Client(models.Model):
         return str(self.rut)
     
 class Model_shopping_cart(models.Model):
-<<<<<<< HEAD
     fecha= models.DateTimeField()
-=======
-    fecha= models.DateTimeField('Fecha')
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
     id_Teams = models.ForeignKey(Teams,on_delete=models.CASCADE)
     id_cliente = models.ForeignKey(Model_Client,on_delete=models.CASCADE)
 
     def __str__(self):
-<<<<<<< HEAD
         return f'{self.id_cliente} - {self.id_Teams}'
-=======
-        return str(self.id_Teams)
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111

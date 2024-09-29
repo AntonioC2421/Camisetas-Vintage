@@ -16,9 +16,6 @@ urlpatterns = [
     path('DeleteDato/<int:id_dato>/', views.ViewDatos.eliminar_datos, name='delete_marca'),
     path('loginVintage/',views.redirigir_usuario, name='redirigir_usuario'),
     path('RegistrationUser/', views.ViewsAddCliente, name='CreateUser'),
-<<<<<<< HEAD
     path('AddItemCart/', views.AddItemCart, name='AddItemsCart'),
-=======
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
     path('exit/', views.exit, name='exit'),
 ]
