@@ -47,8 +47,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                 aria-label="Cerrar"></button>
                         </div>
-                        <div class="offcanvas-body m-2" style="border: 1px solid rgb(204, 204, 204);">
-                            <p><strong>Total Precio:</strong> <span id="totalPrecio">0</span></p>
+                        <div class="offcanvas-body m-2" style="border: 1px solid rgb(204, 204, 204);">  
                             {% if datosItems %}
                             {% for i in datosItems %}
                             <div class="card m-2" >
@@ -62,8 +61,9 @@
                                     <div class="p-2" style="width: 50%;">
                                         <p><strong>Año:</strong> {{ i.id_Teams.year }}</p>
                                         <p><strong>$</strong> {{ i.id_Teams.precio }}</p>
-                                        <input type="hidden" name="valorItem" class="precioItemCart" value="{{ i.id_Teams.precio }}">
+                                        <input type="hidden" class="precioItemCart" value="{{ i.id_Teams.precio }}">
                                         <p><strong>Equipo:</strong> {{ i.id_Teams.id_SubCategoria.name }}</p>
+                                        <input type="hidden" class="EquipoItemCart" value="{{ i.id_Teams }}">
                                         <p><strong>Talla:</strong> {{ i.id_Teams.id_Size.name }}</p>
                                         <p><strong>Marca:</strong> {{ i.id_Teams.id_Marca.name }}</p>
                                     </div>
@@ -73,6 +73,34 @@
                             {% else %}
                             <p>no hay items</p>
                             {% endif %}
+                            <table class="table table-bordered">
+                                <thead class=".table-bordered">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span id="NombresIndividuales"></span>
+                                        </td>
+                                        <td>
+                                            <span id="PreciosIndividuales"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <!-- Nueva fila para Precio Total en la columna Nombre y el total en la columna Precio -->
+                                        <td>
+                                            <strong>Precio Total:</strong>
+                                        </td>
+                                        <td>
+                                            $ <span id="totalPrecio">0</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
                             <div class="input-group input-group-sm mb-3">
                                 <button class="input-group-text" id="inputGroup-sizing-sm">Canjear</button>
                                 <!--VALIDAR CODIGO Y PROCEDER CON EL DESCUENTO-->

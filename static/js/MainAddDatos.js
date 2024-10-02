@@ -27,11 +27,7 @@ $.ajaxSetup({
 });
 
 $(document).ready(function () {
-<<<<<<< HEAD
-    console.log('jQuery MainAddDatos Activo') 
-=======
-    console.log('se actualizó la pagina para ghuardaar los datos')
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
+    console.log('jQuery MainAddDatos Activo')
     const addDatosUrl = $('#add-datos-url').val();
     const deleteDatoUrl = $('#delete-marca-url').val();
     const csrfToken = $('#csrf-token').val();

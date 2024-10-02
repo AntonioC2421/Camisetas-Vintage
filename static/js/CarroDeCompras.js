@@ -94,17 +94,32 @@ $(document).ready(function () {
 
     
 });
-function sumarPrecios() {
-    const precios = document.querySelectorAll('.precioItemCart'); // Selecciona todos los inputs con la clase
+function datosCompra() {
+    const precios = document.querySelectorAll('.precioItemCart');
+    const nombres = document.querySelectorAll('.EquipoItemCart');
+    
     let total = 0;
-
+    let listnombres = ''; 
+    let listprecios = '';
     // Recorre todos los inputs y suma sus valores
     precios.forEach(input => {
         total += parseFloat(input.value) || 0; // Convierte a número y suma
     });
 
+    nombres.forEach( input => {
+        listnombres += input.value +  '<br>';
+    });
+    
+    precios.forEach(input => {
+        listprecios += input.value + '<br>'; // Salto de línea para HTML
+    });
+
     console.log("Total precio: desde compra " + total);
     document.getElementById('totalPrecio').textContent = total; // Muestra el total en el DOM
+    console.log('Nombres: '+ listnombres);
+    document.getElementById('NombresIndividuales').innerHTML = listnombres;
+
+    document.getElementById('PreciosIndividuales').innerHTML = listprecios;
 }
 // Ejecuta la función cuando se cargue la página o cada vez que se necesite recalcular
-window.onload = sumarPrecios; 
+window.onload = datosCompra;

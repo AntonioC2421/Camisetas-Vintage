@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
     console.log('desde el JS De INDEX CLIENTE');
     const prev = document.querySelector('.prev');
@@ -20,18 +19,5 @@ function toggleBusqueda() {
         barraBusqueda.style.display = 'block';
     } else {
         barraBusqueda.style.display = 'none';
-    } 
+    }
 }
-=======
-const prev = document.querySelector('.prev')
-const next = document.querySelector('.next')
-const slider = document.querySelector('.slider')
-
-prev.addEventListener('click', () => {
-    slider.scrollLeft -= 300
-})
-
-next.addEventListener('click', () => {
-    slider.scrollLeft += 300
-})
->>>>>>> ab94e0bb148cb187ec9f7249ad53c2663e161111
