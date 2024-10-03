@@ -70,9 +70,6 @@
                                 </div>
                             </div>
                             {% endfor %}
-                            {% else %}
-                            <p>no hay items</p>
-                            {% endif %}
                             <table class="table table-bordered">
                                 <thead class=".table-bordered">
                                     <tr>
@@ -90,7 +87,6 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <!-- Nueva fila para Precio Total en la columna Nombre y el total en la columna Precio -->
                                         <td>
                                             <strong>Precio Total:</strong>
                                         </td>
@@ -100,13 +96,21 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            {% else %}
+                            <p>no hay items</p>
+                            {% endif %}
                             
-                            <div class="input-group input-group-sm mb-3">
-                                <button class="input-group-text" id="inputGroup-sizing-sm">Canjear</button>
-                                <!--VALIDAR CODIGO Y PROCEDER CON EL DESCUENTO-->
-                                <input type="text" class="form-control" placeholder="Código promocional"
-                                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                            </div>
+                            <form id="promoForm">
+                                <div class="input-group input-group-sm mb-3">
+                                    <input id="inputCodPromo" type="text" class="form-control"
+                                        placeholder="Código promocional" aria-label="Sizing example input"
+                                        aria-describedby="inputGroup-sizing-sm">
+                                    <button type="submit" id="inputGroup-sizing-sm" class="input-group-text">Canjear</button>
+                                </div>
+                            </form>
+                            <div id="successMessages" style="display: none; color: green; margin-top: 10px;"></div>
+
+    
                         </div>
                     </div>
                     {% endif %}
@@ -191,6 +195,7 @@
 
     <!--Envio de Url a CarroDeCompras.js-->
     <input type="hidden" id="delete-item-url" value="{% url 'ViewsClient:DeleteItem' 0 %}">
+    <input type="hidden" id="btncodpro" value="{% url 'ViewsClient:ValidacionCodigoURL' 'cod' %}">
     <!-- Enlace al archivo JavaScript estático -->
     <script src="{% static 'js/IndexCliente.js' %}"></script>
     <script src="{% static 'js/CarroDeCompras.js' %}"></script>

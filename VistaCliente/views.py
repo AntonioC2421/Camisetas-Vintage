@@ -4,6 +4,7 @@ from django.core.serializers import serialize
 from django.db.models import Q #Consultas para la barra de busqueda
 from VistaAdmin.models import *
 from django.http import JsonResponse
+
 def MainPrincipalCliente(request):
     Equipo = Teams.objects.all().order_by('-id')[0:8]
     imgTeam = TeamsImgs.objects.all()
@@ -41,11 +42,39 @@ def ViewItemsCart(request):
     return render(request, './TemplatesClientes/MainCliente/IndexCliente.html', data)
 
 
+def ValidacionCod(request, cod_pro):
+    if request.method == 'POST':
+        if cod_pro:
+            try:
+                # Buscar el código promocional
+                validatorCod = CodigoPromocional.objects.get(name=cod_pro)
+                
+                # Verificar las veces de uso
+                veces_uso = validatorCod.vecesUso
+                descuento = validatorCod.descuento
+                
+                if veces_uso > 0:
+                    # Retornar el descuento si el código es válido
+                    return JsonResponse({'success': True, 'message': 'Código canjeado', 'descuentoPorcentaje': descuento})
+                else:
+                    # Código agotado
+                    return JsonResponse({'success': False, 'message': 'Código Agotado :('})
+            except CodigoPromocional.DoesNotExist:
+                # Si el código promocional no existe
+                return JsonResponse({'success': False, 'message': 'Código no válido'})
+        else:
+            # Si no se proporcionó código
+            return JsonResponse({'success': False, 'message': 'No se ingresó código promocional'})
+    
+    # Si no es una solicitud POST
+    return render(request, './TemplatesClientes/MainCliente/IndexCliente.html')
+
+
 def DeleteItemsCart(request, id_item):
     if request.method == 'POST':
         try:
             idItemsCartDelete = Model_shopping_cart.objects.get(id=id_item)
-            print(f"El valor de id_item es: {id_item}")
+            
             idItemsCartDelete.delete()
             return JsonResponse({'success': True, 'message': 'Item eliminado correctamente'})
         except Model_shopping_cart.DoesNotExist:

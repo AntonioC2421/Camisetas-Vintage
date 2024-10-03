@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     next.addEventListener('click', () => {
         slider.scrollLeft += 300;
     });
+
+    
 });
 
 function toggleBusqueda() {
