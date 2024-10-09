@@ -94,3 +94,8 @@ class FormAddItemCart(forms.ModelForm):
         if not fecha:
             raise forms.ValidationError("La fecha es un campo obligatorio.")
         return fecha
+
+class FormAddVenta(forms.ModelForm):
+    class Meta:
+        model = Model_Venta
+        fields = '__all__'

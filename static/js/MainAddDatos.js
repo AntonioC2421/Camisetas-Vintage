@@ -48,7 +48,6 @@ $(document).ready(function () {
                     $('#successMessage').text('Marca añadida correctamente.');
                     $('#successMessage').show();
 
-                    // Limpiar los campos del formulario
                     $('#marcaForm')[0].reset();
 
                     // Agregar la nueva marca a la lista en el modal
@@ -64,7 +63,6 @@ $(document).ready(function () {
                     // Reasignar el evento de eliminar marca
                     assignDeleteMarcaEvent();
 
-                    // Ocultar mensaje después de un tiempo
                     setTimeout(function () {
                         $('#successMessage').fadeOut('slow');
                     }, 2000);
@@ -96,6 +94,7 @@ $(document).ready(function () {
                     $('#successMessageLiga').text('Liga añadida correctamente');
                     $('#successMessageLiga').show();
                     $('#form-add-liga')[0].reset();
+
                     $('#ligaContainer').append(
                         `<div class="container p-2 col-lg-6" style="display: flex; justify-content: space-evenly;">
                             <h3>${response.new_liga.name}</h3>
@@ -104,7 +103,9 @@ $(document).ready(function () {
                             </button>
                         </div>`
                     )
+
                     assignDeleteMarcaEvent();
+
                     setTimeout(function(){
                         $('#successMessageLiga').fadeOut('slow');
                     },2000);
@@ -245,7 +246,7 @@ $(document).ready(function () {
                         alert('Error: ' + response.message);
                     }
                 },
-                error: function (xhr, status, error) { 
+                error: function () { 
                     alert('Ocurrió un error al intentar eliminar la marca.');
                 }
             });
@@ -268,9 +269,11 @@ $(document).ready(function () {
                         $('#liga-' + ligaId).parent().remove();
                         $('#successMessagesLiga').text('Liga Eliminada');
                         $('#successMessagesLiga').show();
+
                         setTimeout(function () {
                             $('#successMessagesLiga').fadeOut('slow');
                         }, 2000);
+                        
                     } else {
                         alert('Error: ' + response.message);
                     }

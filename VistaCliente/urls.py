@@ -11,4 +11,6 @@ urlpatterns = [
     path('Search/', views.Search, name='Search'),
     path('DeleteItemCart/<int:id_item>', views.DeleteItemsCart, name='DeleteItem'),
     path('ValidCod/<str:cod_pro>', views.ValidacionCod, name='ValidacionCodigoURL'),
+    path('AddVenta/', views.Realizar_Venta, name='AddVenta'),
+    path('ItemsCart/', views.ViewItemsCart, name='ItemsCart'),
 ]

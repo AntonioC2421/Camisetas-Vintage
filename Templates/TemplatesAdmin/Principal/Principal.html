@@ -54,7 +54,7 @@
                                 <a class="nav-link" href="#">Publicación de Camiseta</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Reporte de Ventas</a>
+                                <a class="nav-link" href="{% url 'ViewsAdmin:AllVentasURL' %}">Reporte de Ventas</a>
                             </li>
                         </ul>
                     </div>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
-                <a href="">
+                <a href="{% url 'ViewsAdmin:AllVentasURL' %}">
                     <img src="{% static 'imagenes/REPORTimgg.jpeg' %}" alt="">
                     <h2 class="ItemTitle">Reporte de ventas</h2>
                 </a>

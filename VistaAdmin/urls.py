@@ -17,5 +17,6 @@ urlpatterns = [
     path('loginVintage/',views.redirigir_usuario, name='redirigir_usuario'),
     path('RegistrationUser/', views.ViewsAddCliente, name='CreateUser'),
     path('AddItemCart/', views.AddItemCart, name='AddItemsCart'),
+    path('AllVentas/', views.View_Ventas, name='AllVentasURL'),
     path('exit/', views.exit, name='exit'),
 ]

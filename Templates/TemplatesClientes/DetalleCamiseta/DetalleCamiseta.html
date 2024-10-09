@@ -3,10 +3,7 @@
 {% block content %}
 {% if deta %}
 {%for i in deta %}
-<head>
-    <!--jQuery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+
 <div class="container" style="width: 20%; display: grid; place-items: center;">
     {% for e in imgs %}
     <img src="{{ e.imagen.url }}" style="width: 170px; padding: 10px;">
@@ -40,7 +37,7 @@
     </div>
     <input type="hidden" id="addItemCart-url" value="{% url 'ViewsAdmin:AddItemsCart'%}">
 </div>
-<script src="{% static 'js/CarroDeCompras.js' %}"></script>
+
 {% endfor %}
 {% endif %}
 {% endblock %}

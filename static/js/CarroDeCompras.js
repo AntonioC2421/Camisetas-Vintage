@@ -1,3 +1,4 @@
+//{% csrf_token %}
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -12,10 +13,12 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+const csrfToken = getCookie('csrftoken');
 
-const csrfToken = getCookie('csrftoken'); // Asegúrate de que solo aparezca una vez
-
+//Variables globales
 let total = 0;
+let Descuento = 0;
+let totaldescuento = 0;
 
 function datosCompra() {
     const precios = document.querySelectorAll('.precioItemCart');
@@ -26,7 +29,7 @@ function datosCompra() {
     let listprecios = '';
     // Recorre todos los inputs y suma sus valores
     precios.forEach(input => {
-        total += parseFloat(input.value) || 0; // Convierte a número y suma
+        total += parseFloat(input.value) || 0;
     });
 
     nombres.forEach(input => {
@@ -34,10 +37,10 @@ function datosCompra() {
     });
 
     precios.forEach(input => {
-        listprecios += input.value + '<br>'; // Salto de línea para HTML
+        listprecios += input.value + '<br>';
     });
 
-    document.getElementById('totalPrecio').textContent = total; // Actualiza el total
+    document.getElementById('totalPrecio').textContent = total;
 
     document.getElementById('NombresIndividuales').innerHTML = listnombres;
     document.getElementById('PreciosIndividuales').innerHTML = listprecios;
@@ -50,24 +53,89 @@ $(document).ready(function () {
     const addItemCartUrl = $('#addItemCart-url').val()
     const deleteItemUrl = $('#delete-item-url').val()
     const validCodUrl = $('#btncodpro').val()
+    const VentaUrl = $('#btnVenta').val()
+    const UrlItems = $('#btnItemsCart').val()
+
+    
+    $('#FormAddVenta').on('submit', function (e) {
+        e.preventDefault();
+        // Realizar la primera solicitud para obtener los ítems
+        $.ajax({
+            url: UrlItems,
+            type: "GET",
+            success: function (response) {
+                if (response.success) {
+                    console.log('Se recibieron los datos de los items:', response.items);
+
+                    let items_cart = response.items.map(item => {
+                        return {
+                            id: item.id,
+                            id_teams: item.id_teams,
+                        };
+                    });
+
+                    let precio_venta;
+                    
+                    if (Descuento) {
+                        precio_venta = totaldescuento;
+                    } else {
+                        precio_venta = total;
+                    }
+                    const fechaClick = new Date();
+                    rutInput = $('#inputRutCliente').val();
+                    
+                    let datosVenta = {
+                        'items_cart' : items_cart,
+                        'precio_venta': precio_venta,
+                        'timestamp': fechaClick.toISOString(),
+                        'rut_Cliente':rutInput,
+                    };
+                    
+                    console.log('Datos enviados a la vista:', datosVenta);
+                    
+                    $.ajax({
+                        url: VentaUrl,
+                        type: 'POST',
+                        data: JSON.stringify(datosVenta),
+                        contentType: 'application/json',
+                        headers: {
+                            'X-CSRFToken': csrfToken
+                        },
+                        success: function (response) {
+                            console.log('INGRESO ÉXITO:', response);
+                        },
+                        error: function (error) {
+                            console.error('Ocurrió un error: ', error);
+                        }
+                    });
+                } else {
+                    console.error('Error al obtener los items: ', response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Ocurrió un error: ', error);
+                console.error('Estado de respuesta: ', xhr.status);
+                console.error('Texto de respuesta: ', xhr.responseText);
+                alert('Hubo un problema con la solicitud: ' + xhr.status + ' - ' + xhr.responseText);
+            }
+        });
+    });
+
 
     $('#addToCartButtonn').on('click', function (e) {
         e.preventDefault();
 
-        // Obtener la fecha actual en formato correcto
         const fechaClick = new Date();
 
-        // Capturar los valores de los campos
         const itemIdString = $('#itemId').val();
-        const itemIdNumber = parseInt(itemIdString, 10); // Convierte a número entero
+        const itemIdNumber = parseInt(itemIdString, 10);
 
         const userIdString = $('#userId').val();
-        const userIdNumber = parseInt(userIdString, 10); // Convierte a número entero
+        const userIdNumber = parseInt(userIdString, 10);
 
         const formData = new FormData($('#addItemCartForm')[0]);
-        formData.append('timestamp', fechaClick.toISOString()); // fecha en formato ISO
+        formData.append('timestamp', fechaClick.toISOString());
 
-        // Enviar el formulario vía AJAX
         $.ajax({
             url: addItemCartUrl,
             type: 'POST',
@@ -110,9 +178,9 @@ $(document).ready(function () {
                     // Elimina la card
                     $('#Item-' + id_item).parent().remove();
                     // Elimina la fila de la tabla
-                    $('#row-item-' + id_item).remove(); // Asegúrate de que la fila tenga este ID
-                    // Actualiza el total de precios
-                    datosCompra(); // función para actualizar el total
+                    $('#row-item-' + id_item).remove();
+                    
+                    datosCompra(); // Actualiza el total de precios
                 } else {
                     alert('Error: ' + response.message);
                 }
@@ -123,16 +191,11 @@ $(document).ready(function () {
         });
     });
 
-    // Evento 'submit' solo manejará el envío del formulario, ya sea por 'Enter' o por el botón.
     $('#promoForm').on('submit', function (e) {
         e.preventDefault();
-
         const codigoPromo = $('#inputCodPromo').val();
-
-        console.log('Envío de código promocional:', codigoPromo);
-
         let validCod = validCodUrl.replace('cod', codigoPromo);
-        console.log(validCod);
+
         $.ajax({
             type: 'POST',
             url: validCod,
@@ -142,16 +205,43 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.success) {
-                    $('#successMessages').text('Codigo ingresado correctamente');
+                    // Mostrar el mensaje de éxito
+                    $('#successMessages').text('Código ingresado correctamente');
+                    $('#successMessages').css('color', 'green');
                     $('#successMessages').show();
+
+                    Descuento = (total * response.descuentoPorcentaje) / 100;
+                    totaldescuento = total - Descuento;
+
+                    $('#containepreciodescuento').html(
+                        `<div>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Precio Descuento:</strong></td>
+                                        <td>$ <span id="PrecioConDescuento">${totaldescuento}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>`
+                    );
+
+                    $('#containepreciodescuento').show();
+
                     setTimeout(function () {
                         $('#successMessages').fadeOut('slow');
                     }, 2000);
                 } else {
-                    $('#successMessages').text('El codigo promocional no existe');
+                    Descuento = 0;
+                    totaldescuento = 0;
+
+                    $('#successMessages').text('El código promocional no existe');
                     $('#successMessages').css('color', 'red');
                     $('#successMessages').show();
 
+                    // Ocultar y vaciar el contenedor de descuento
+                    $('#containepreciodescuento').empty();  // Vaciar el contenido
+                    $('#containepreciodescuento').hide();   // Ocultar el contenedor
                     setTimeout(function () {
                         $('#successMessages').fadeOut('slow');
                     }, 2000);
@@ -168,6 +258,6 @@ $(document).ready(function () {
 
     // actualizar en tiempo real el precio total (sin codigo promocional)
     $('.precioItemCart').on('input', function () {
-        datosCompra(); 
+        datosCompra();
     });
 });

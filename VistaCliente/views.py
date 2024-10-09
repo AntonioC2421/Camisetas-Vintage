@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from VistaAdmin.models import SubCategoria,Teams,TeamsImgs
+from VistaAdmin.models import *
 from django.core.serializers import serialize
 from django.db.models import Q #Consultas para la barra de busqueda
 from VistaAdmin.models import *
 from django.http import JsonResponse
+from VistaAdmin.forms import *
+import json
 
 def MainPrincipalCliente(request):
     Equipo = Teams.objects.all().order_by('-id')[0:8]
@@ -18,35 +20,89 @@ def MainPrincipalCliente(request):
             # Obtén el cliente relacionado con el usuario logueado
             cliente = Model_Client.objects.get(user=request.user)
             user_name = cliente.nombre
+            user_rut = cliente.rut
             # Filtra los items del carrito por el cliente logueado
             items_cart = Model_shopping_cart.objects.filter(id_cliente=cliente)
-            data = {'users': user_name ,'equipos': Equipo, 'imgTeam': imgTeam_serialized, 'datosItems': items_cart}
+            data = {'users': user_name ,'equipos': Equipo, 'imgTeam': imgTeam_serialized, 'datosItems': items_cart, 'user_rut':user_rut}
     else:
         data = {'equipos': Equipo, 'imgTeam': imgTeam_serialized}
 
     return render(request, './TemplatesClientes/MainCliente/IndexCliente.html', data)
 
 def ViewItemsCart(request):
-    if request.user.is_authenticated:  # Verifica si el usuario está autenticado
-        if request.user.is_staff:
-            items_cart = []
-        else:
-            # Obtén el cliente relacionado con el usuario logueado
+    items_cart = []
+    
+    if request.user.is_authenticated:
+        if not request.user.is_staff:
+            
             cliente = Model_Client.objects.get(user=request.user)
-            user_name = cliente.nombre
-            # Filtra los items del carrito por el cliente logueado
+            
             items_cart = Model_shopping_cart.objects.filter(id_cliente=cliente)
             
-    data = {'datosItems': items_cart,'users':user_name}
-
+            items = [{'id': item.id, 'name': item.id_Teams.name, 'id_teams': item.id_Teams.id} for item in items_cart]
+            
+            # Verifica si la solicitud es AJAX
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'message': 'Datos de Items', 'items': items})
+    
+    # Si no es una solicitud AJAX, renderiza el HTML con los datos
+    data = {'datosItems': items_cart}
     return render(request, './TemplatesClientes/MainCliente/IndexCliente.html', data)
 
+def Realizar_Venta(request):
+    if request.method == 'POST':
+        try:
+            if request.user.is_authenticated:
+                # Cargar los datos del cuerpo de la solicitud
+                data = json.loads(request.body)
+                precio_venta = data.get('precio_venta')
+                items = data.get('items_cart')
+                timestamp = data.get('timestamp')
+                rut_cliente = data.get('rut_Cliente')
+
+                print(f'Buscando cliente con RUT: {rut_cliente}')
+                try:
+                    user_id = Model_Client.objects.get(rut=rut_cliente)
+                except Model_Client.DoesNotExist:
+                    return JsonResponse({'success': False, 'message': 'Cliente no encontrado'})
+
+                # Guardar cada ítem
+                for item in items:
+                    item_id = item.get('id_teams')
+                    print(f'Buscando equipo con ID: {item_id}')
+
+                    try:
+                        equipo = Teams.objects.get(id=item_id)
+                    except Teams.DoesNotExist:
+                        return JsonResponse({'success': False, 'message': 'Equipo no encontrado'})
+
+                    if not timestamp:
+                        return JsonResponse({'success': False, 'message': 'Fecha de la venta no especificada'})
+
+                    form_data = {
+                        'items_cart': equipo,
+                        'rut_cliente': user_id,
+                        'fecha_venta': timestamp,
+                        'precio_venta': precio_venta
+                    }
+
+                    form = FormAddVenta(data=form_data)
+                    if not form.is_valid():
+                        return JsonResponse({'success': False, 'message': 'Formulario no válido', 'errors': form.errors})
+
+                    form.save()
+
+                return JsonResponse({'success': True, 'message': 'Venta registrada correctamente'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
+
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
 
 def ValidacionCod(request, cod_pro):
     if request.method == 'POST':
         if cod_pro:
             try:
-                # Buscar el código promocional
                 validatorCod = CodigoPromocional.objects.get(name=cod_pro)
                 
                 # Verificar las veces de uso
@@ -54,27 +110,27 @@ def ValidacionCod(request, cod_pro):
                 descuento = validatorCod.descuento
                 
                 if veces_uso > 0:
-                    # Retornar el descuento si el código es válido
-                    return JsonResponse({'success': True, 'message': 'Código canjeado', 'descuentoPorcentaje': descuento})
+                    response_data = {
+                        'success': True,
+                        'descuentoPorcentaje': descuento,   # Porcentaje de descuento
+                        'vecesDescuento': veces_uso         # Veces que puede usarse
+                    }
+                    return JsonResponse(response_data)
                 else:
                     # Código agotado
                     return JsonResponse({'success': False, 'message': 'Código Agotado :('})
             except CodigoPromocional.DoesNotExist:
-                # Si el código promocional no existe
                 return JsonResponse({'success': False, 'message': 'Código no válido'})
         else:
             # Si no se proporcionó código
             return JsonResponse({'success': False, 'message': 'No se ingresó código promocional'})
-    
     # Si no es una solicitud POST
     return render(request, './TemplatesClientes/MainCliente/IndexCliente.html')
-
 
 def DeleteItemsCart(request, id_item):
     if request.method == 'POST':
         try:
             idItemsCartDelete = Model_shopping_cart.objects.get(id=id_item)
-            
             idItemsCartDelete.delete()
             return JsonResponse({'success': True, 'message': 'Item eliminado correctamente'})
         except Model_shopping_cart.DoesNotExist:

@@ -23,3 +23,19 @@ function toggleBusqueda() {
         barraBusqueda.style.display = 'none';
     }
 }
+
+function Pedidos_Carro(){
+    const btnPedidoCarro = document.getElementById('btnPedidos');
+    const content = document.getElementById('ContentCarrroPedidos');
+    const contentItems = document.getElementById('ContentCarro');
+    const btnCarroItems = document.getElementById('btnCarro');
+    btnPedidoCarro.addEventListener('click', () => {
+        contentItems.style.display = 'none';
+        content.style.display = 'block';
+    });
+
+    btnCarroItems.addEventListener('click', () => {
+        contentItems.style.display = 'block';
+        content.style.display = 'none';
+    });
+}

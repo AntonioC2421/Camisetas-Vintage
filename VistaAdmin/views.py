@@ -6,7 +6,14 @@ from .forms import *
 from .models import *
 from django.views import View
 from django.http import JsonResponse
+from django.utils import timezone
 
+def View_Ventas(request):
+    ventas = Model_Venta.objects.all()
+    data = {
+        'All_ventas': ventas
+    }
+    return render(request, './TemplatesAdmin/Informe/InformeVentas.html', data)
 
 # Decorador para verificar si el usuario es admin
 def admin_required(view_func):
@@ -53,8 +60,7 @@ def ADDcamisetas(request):
 
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html', data)
 
-from django.http import JsonResponse
-from django.utils import timezone
+
 @login_required
 def AddItemCart(request):
     if request.method == 'POST':

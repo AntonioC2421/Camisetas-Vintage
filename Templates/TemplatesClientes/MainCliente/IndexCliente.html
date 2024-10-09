@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{% static 'css/IndexCliente.css' %}">
     <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token }}">
 </head>
 
 <body>
@@ -37,9 +38,11 @@
                     {% if user.is_authenticated %}
                     <a href="" data-bs-toggle="offcanvas" data-bs-target="#miOffcanvas"
                         aria-controls="miOffcanvas">Carro</a>
+
                     <!-- Contenido del offcanvas -->
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="miOffcanvas"
                         aria-labelledby="miOffcanvasLabel">
+                        
                         <div class="offcanvas-header">
                             <div class="container-fluid" style="text-align: center;">
                                 <h5 class="offcanvas-title" id="miOffcanvasLabel">hola!! {{users}}</h5>
@@ -47,74 +50,114 @@
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                 aria-label="Cerrar"></button>
                         </div>
-                        <div class="offcanvas-body m-2" style="border: 1px solid rgb(204, 204, 204);">  
-                            {% if datosItems %}
-                            {% for i in datosItems %}
-                            <div class="card m-2" >
-                                <h5 class="card-header">{{ i.id_Teams }}</h5>
-                                <div class="card-body d-flex" id="Item-{{ i.id }}">
-                                    <div class="d-grid gap-2 m-2" style="width: 50%;" >
-                                        <img src="{{ i.id_Teams.img.url }}" width="100%">
-                                        <button class="btn btn-primary delete-item" type="button" 
-                                            data-id="{{ i.id }}">Quitar</button>
-                                    </div>
-                                    <div class="p-2" style="width: 50%;">
-                                        <p><strong>Año:</strong> {{ i.id_Teams.year }}</p>
-                                        <p><strong>$</strong> {{ i.id_Teams.precio }}</p>
-                                        <input type="hidden" class="precioItemCart" value="{{ i.id_Teams.precio }}">
-                                        <p><strong>Equipo:</strong> {{ i.id_Teams.id_SubCategoria.name }}</p>
-                                        <input type="hidden" class="EquipoItemCart" value="{{ i.id_Teams }}">
-                                        <p><strong>Talla:</strong> {{ i.id_Teams.id_Size.name }}</p>
-                                        <p><strong>Marca:</strong> {{ i.id_Teams.id_Marca.name }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            <table class="table table-bordered">
-                                <thead class=".table-bordered">
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Precio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span id="NombresIndividuales"></span>
-                                        </td>
-                                        <td>
-                                            <span id="PreciosIndividuales"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Precio Total:</strong>
-                                        </td>
-                                        <td>
-                                            $ <span id="totalPrecio">0</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {% else %}
-                            <p>no hay items</p>
-                            {% endif %}
-                            
-                            <form id="promoForm">
-                                <div class="input-group input-group-sm mb-3">
-                                    <input id="inputCodPromo" type="text" class="form-control"
-                                        placeholder="Código promocional" aria-label="Sizing example input"
-                                        aria-describedby="inputGroup-sizing-sm">
-                                    <button type="submit" id="inputGroup-sizing-sm" class="input-group-text">Canjear</button>
-                                </div>
-                            </form>
-                            <div id="successMessages" style="display: none; color: green; margin-top: 10px;"></div>
+                        
+                        <div class="container-fluid d-flex">
+                            <div class="container btn btn-primary" onclick="Pedidos_Carro()" id="btnCarro">Carro</div>
+                            <div class="container btn btn-secondary" onclick="Pedidos_Carro()" id="btnPedidos">Pedidos</div>
+                        </div>
 
-    
+                        <div class="offcanvas-body m-2" style="border: 1px solid rgb(204, 204, 204);">
+                            <div id="ContentCarro" style="display: block;">
+                                {% if datosItems %}
+                                {% for i in datosItems %}
+                                <div class="card m-2">
+                                    <h5 class="card-header">{{ i.id_Teams }}</h5>
+                                    <div class="card-body d-flex" id="Item-{{ i.id }}">
+                                        <div class="d-grid gap-2 m-2" style="width: 50%;">
+                                            <img src="{{ i.id_Teams.img.url }}" width="100%">
+                                            <button class="btn btn-primary delete-item" type="button"
+                                                data-id="{{ i.id }}">Quitar</button>
+                                        </div>
+                                        <div class="p-2" style="width: 50%;">
+                                            <p><strong>Año:</strong> {{ i.id_Teams.year }}</p>
+                                            <p><strong>$</strong> {{ i.id_Teams.precio }}</p>
+                                            <input type="hidden" class="precioItemCart" value="{{ i.id_Teams.precio }}">
+                                            <p><strong>Equipo:</strong> {{ i.id_Teams.id_SubCategoria.name }}</p>
+                                            <input type="hidden" class="EquipoItemCart" value="{{ i.id_Teams }}">
+                                            <p><strong>Talla:</strong> {{ i.id_Teams.id_Size.name }}</p>
+                                            <p><strong>Marca:</strong> {{ i.id_Teams.id_Marca.name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <table class="table table-bordered">
+                                    <thead class=".table-bordered">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span id="NombresIndividuales"></span>
+                                            </td>
+                                            <td>
+                                                <span id="PreciosIndividuales"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Precio Total:</strong>
+                                            </td>
+                                            <td>
+                                                $ <span id="totalPrecio">0</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <p>no hay items</p>
+                                {% endif %}
+
+                                <form id="promoForm">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <input id="inputCodPromo" type="text" class="form-control"
+                                            placeholder="Código promocional" aria-label="Sizing example input"
+                                            aria-describedby="inputGroup-sizing-sm">
+                                        <button type="submit" id="inputGroup-sizing-sm"
+                                            class="input-group-text">Canjear</button>
+                                    </div>
+                                </form>
+                                <!--Mensaje de exito o error-->
+                                <div id="successMessages" style="display: none; color: green; margin-top: 10px;"></div>
+
+                                <div id="containepreciodescuento" style="display: none;">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Precio Descuento: </strong>
+                                                </td>
+                                                <td>
+                                                    $ <span id="PrecioConDescuento">0</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <form method="POST" id="FormAddVenta">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="inputRutCliente" value="{{user_rut}}">
+                                    <button type="submit" id="CompraCartButtonn" class="container"
+                                        style="border: 2px solid black; text-align: center; align-content: center; display: block; padding: 7px; background-color: rgb(15, 48, 77);">
+                                        <span style="color: aliceblue;">Comprar</span>
+                                    </button>
+                                </form>
+
+                            </div>
+
+                            <div class="container" id="ContentCarrroPedidos" style="display: none;">
+                                Pedidos realizados por el cliente
+                                <!--Obtener items comprados-->
+                            </div>
+
                         </div>
                     </div>
                     {% endif %}
                 </div>
+
                 <div>
                     {% if user.is_authenticated %}
                     <a style="text-decoration: none; color: rgb(12, 85, 150);" href="{% url 'ViewsAdmin:exit' %}">
@@ -122,6 +165,7 @@
                     </a>
                     {% endif %}
                 </div>
+
             </div>
         </div>
         <div class="container-fluid">
@@ -141,13 +185,14 @@
     </div>
 
     <div class="conte">
+        <!--Barra de bisqueda-->
         <div class="container" style="display: none;" id="barra_busqueda">
             <form class="d-flex" action="{% url 'ViewsClient:Search' %}" method="get">
                 <input type="text" class="form-control" name="q" placeholder="Busca tu equipo">
                 <button class="btn btn-outline-primary" type="submit">Buscar</button>
             </form>
         </div>
-        
+
         <div class="container">
             {% if equipos %}
             <div class="container SubTitulos py-2">
@@ -171,11 +216,14 @@
             <img class="control next" src="{% static 'imagenes/next.png' %}">
             {% endif %}
         </div>
+
         <div class="container-fluid d-flex">
             {% block content %}
             {% endblock %}
         </div>
+
         <hr>
+
         <footer>
             <div class="container-fluid p-4">
                 <div class="container">
@@ -196,6 +244,9 @@
     <!--Envio de Url a CarroDeCompras.js-->
     <input type="hidden" id="delete-item-url" value="{% url 'ViewsClient:DeleteItem' 0 %}">
     <input type="hidden" id="btncodpro" value="{% url 'ViewsClient:ValidacionCodigoURL' 'cod' %}">
+    <input type="hidden" id="btnVenta" value="{% url 'ViewsClient:AddVenta' %}">
+    <input type="hidden" id="btnItemsCart" value="{% url 'ViewsClient:ItemsCart' %}">
+
     <!-- Enlace al archivo JavaScript estático -->
     <script src="{% static 'js/IndexCliente.js' %}"></script>
     <script src="{% static 'js/CarroDeCompras.js' %}"></script>
