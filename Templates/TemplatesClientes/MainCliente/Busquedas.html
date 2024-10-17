@@ -1,30 +1,46 @@
 {% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
 {% load static %}
 {% block content %}
-    <div class="container">
-        {% if teams %}
-        <div class="container SubTitulos">
-            <h4>Busqueda para '{{query}}'</h4>
-        </div>
-        <img class="control prev" src="{% static 'imagenes/prev.png' %}">
-        <div class="slider">
-            {% for team in teams %}
-            <div class="col-6 col-md-3" style="padding: 2px;">
-                {% if team.img %}
-                <img id="imgBox" src="{{ team.img.url }}" class="img-thumbnail w-100">
-                {% else %}
-                <img id="imgBox" src="{% static 'imagenes/eror.jpg'%}" class="img-thumbnail w-100">
-                {% endif %}
-                <div class="container">
-                    <p><a href="{% url 'ViewsClient:DetalleCamiseta' team.id %}">{{team.name}}</a></p>
-                    <p>$ {{ team.precio|floatformat:0 }}</p>
+<div class="container">
+    {% if teams %}
+    <div class="container SubTitulos">
+        <h4>Busqueda para '{{query}}'</h4>
+    </div>
+
+    <div>
+        <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner slider">
+                <div class="carousel-item d-flex">
+                    {% for team in teams %}
+                    <div class="card">
+                        {% if team.img %}
+                        <div class="image"><img src="{{ team.img.url }}" width="190px"></div>
+                        {% else %}
+                        <div class="image"><img src="{% static 'imagenes/eror.jpg'%}" width="190px"></div>
+                        {% endif %}
+                        <span class="title"><a
+                                href="{% url 'ViewsClient:DetalleCamiseta' team.id %}"><b>{{team.name}}</b></a></span>
+                        <span class="price"><b>${{ team.precio|floatformat:0 }}</b></span>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- Botones prev y next -->
+            <button class="carousel-control-prev prev" type="button" data-bs-target="#carouselExampleControls">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next next" type="button" data-bs-target="#carouselExampleControls">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <img class="control next" src="{% static 'imagenes/next.png' %}">
-        {% else %}
-        <h2>NO SE ECUEENTRA '{{query}}'</h2>
-        {% endif %}
     </div>
+</div>
+
+{% else %}
+<h2>NO SE ECUEENTRA '{{query}}'</h2>
+{% endif %}
+</div>
 {% endblock %}

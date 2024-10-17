@@ -59,6 +59,8 @@ TEMPLATES = [
                 'VistaCliente.context_processors.formulario_addcamiseta',
                 'VistaCliente.context_processors.codigos_disponibles',
                 'VistaCliente.context_processors.formulario_addcod',
+                'VistaCliente.context_processors.subcategorias_disponibles',
+                'VistaCliente.context_processors.ItemsCardUser'
             ],
             'libraries': {
                 'filtros': 'VistaAdmin.filtros',

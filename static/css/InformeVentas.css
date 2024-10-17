@@ -1,0 +1,21 @@
+:root {
+    --Primary-color: rgb(0, 100, 158);
+} 
+
+header {
+    color: aliceblue;
+    background-color: var(--Primary-color);
+    padding-block: 4px;
+    text-align: center;
+}
+
+.InformeOpciones {
+    background-color: bisque;
+    justify-content: space-around;
+}
+.icoFact{
+    display: grid;
+    place-content: center;
+    text-decoration: none; 
+    color:var(--Primary-color);
+}

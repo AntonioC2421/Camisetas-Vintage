@@ -1,52 +1,141 @@
-*{
+:root {
+    --Primary-color: rgb(0, 100, 158);
+    --Secondary-color: rgb(255, 255, 255);
+    --Border-color:rgba(226, 226, 226, 0.295);
+}
+
+* {
     font-family: monospace;
+    box-sizing: border-box; 
 }
 
-.navbar .container-fluid img {
-    width: 100px;
+body {
+    overflow-x: hidden;
 }
 
-.offcanvas-body ul li a {
-    color: rgb(255, 255, 255);
-    font-size: 18px;
-    font-family: monospace;
-}
-
-.offcanvas-body ul li a.nav-link:hover,
-.offcanvas-body ul li a.nav-link:active,
-.offcanvas-body ul li a.nav-link:focus {
-    color: rgb(0, 100, 158); /* Cambia este color por el que desees */
-}
-
-.principalAdmin {
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 250px;
+    background-color: var(--Primary-color);
     position: fixed;
+    z-index: 1030;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
-    background-color: rgb(255, 255, 255);
-    border-bottom: 1px solid rgb(231, 231, 231);
 }
 
-.conteAdmin {
-    margin-top: 100px;
-    z-index: 1;
+
+
+#offcanvasDarkNavbar {
+    z-index: 1050;
+    width: 300px;
+    background-color:rgb(247, 247, 247);
 }
 
-.conteAdmin .container img {
-    width: 500px;
+.AdminContent {
+    z-index: 1040;
+    margin-top: 50px;
+    position: relative;
+    height: 89vh;
+}
+
+.PanelAdmin {
+    width: 25%;
+    border-top-right-radius: 40px;
+    background-color: var(--Secondary-color);
+    display: grid; 
+    place-items: center;
+    border: 2px solid var(--Border-color);
+}
+.AdminContent .ItemsAdmin{
+    overflow-y: scroll;
+    height: 450px;
+    scrollbar-width: none;
+}
+.AccesoDirectoAdmin {
+    display: flex;
+    justify-content:end;
+    align-items: center; 
+    height: 202px;
+}
+
+.PanelAdminViews .PanelViews{
+    overflow-y: scroll;
+    height: 387px;
+    scrollbar-width: none;
+}
+
+.AccesoDirectoAdmin .ItemsAcceso{
+    background-color: rgba(255, 255, 255, 0.205);
+    color: aliceblue;
+    height: 110px;
+    width: 200px;
+    padding: 0;
     border-radius: 5px;
-    filter: drop-shadow(0 0 10px rgb(155, 154, 154));
 }
 
-.conteAdmin .container .ItemTitle{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 5px;
-    font-family: monospace;
+.AccesoDirectoAdmin .ItemsIco{
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.AccesoDirectoAdmin .ItemsTitle{
+    display: flex;
+    height: 50%;
+    justify-content: center;
+    align-items: start;
+}
+.AccesoDirectoAdmin .ItemsTitle a{
+    text-decoration: none;
+    color: aliceblue;
+    font-size: large;
+}
+
+.DateLogin {
+    margin: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.DateLogin .NameUser {
+    text-align: justify;
+    color: black;
+}
+
+.ConteImgAdmin {
+    display: grid; 
+    place-content: center;
+}
+
+.ItemsAdmin .ListaItemsAdmin {
+    list-style: none;
+}
+
+.ItemsAdmin .ListaItemsAdmin .Items {
+    margin-block: 5px;
+    padding: 8px;
+}
+
+.ItemsAdmin .ListaItemsAdmin .Items a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}
+
+/* Cuando la barra lateral esté oculta, el botón hamburguesa estará en la esquina izquierda */
+@media (max-width: 992px) {
+    .PanelAdmin {
+        display: none;
+    }
+    #hamburger-btn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1100;
+    }
 }

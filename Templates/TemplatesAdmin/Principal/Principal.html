@@ -12,91 +12,134 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <title>ViewAdmin</title>
+    <title>Panel</title>
     <link rel="stylesheet" href="{% static 'css/Principal.css' %}">
 </head>
 
 <body>
-    <div class="principalAdmin ">
-        <nav class="navbar fixed-top"
-            style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
-            <div class="container-fluid">
-                <a href="{% url 'ViewsClient:MainPrincipalCliente' %}">
-                    <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
-                </a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar"
-                    aria-labelledby="offcanvasDarkNavbarLabel">
-                    <div class="offcanvas-header">
-                        <div class="container d-flex row  offcanvas-title" id="offcanvasDarkNavbarLabel"
-                            style="justify-content: center; align-items: center;">
-                            <img class="col-6" src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="100px">
-                            <h4 class="col-6" style="font-family: monospace;"><strong>Antonio Cotrina</strong></h4>
-                        </div>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Logo" width="100px">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+            aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation" id="hamburger-btn">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <div class="offcanvas offcanvas-start  py-4" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-body">
+            <div class="DateLogin">
+                <div class="container ConteImgAdmin">
+                    <img src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="70px">
+                </div>
+                <div class="container NameUser">
+                    <h4>{{user}}</h4>
+                </div>
+            </div>
+            <div class="container exit d-flex" style="justify-content:end;">
+                <a style="text-decoration: none;" href="{% url 'ViewsAdmin:exit' %}"><i
+                        class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesión</i></a>
+            </div>
+            <hr>
+            <div class="ItemsAdmin">
+                <ul class="ListaItemsAdmin">
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:ADDcamisetas' %}"><i
+                                class="bi bi-folder-plus px-2"></i>Camisetas</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:AllVentasURL' %}"><i
+                                class="bi bi-file-earmark-bar-graph px-2"></i>Ventas</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:AddDatos' %}"><i class="bi bi-database-add px-2"></i>Agregar
+                            Datos</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:CodPromUrl' %}"><i class="bi bi-upc-scan px-2"></i>Códigos
+                            Promocionales</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex AdminContent row">
+        <div class="container PanelAdmin col-lg-3 d-none d-lg-block">
+            <div class="DateLogin">
+                <div class="container ConteImgAdmin">
+                    <img src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="70px">
+                </div>
+                <div class="container NameUser">
+                    <h4>{{user}}</h4>
+                </div>
+            </div>
+
+            <hr>
+            <div class="container exit d-flex" style="justify-content:end;">
+                <a style="text-decoration: none;" href="{% url 'ViewsAdmin:exit' %}"><i
+                        class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesión</i></a>
+            </div>
+            <div class="container ItemsAdmin">
+                <ul class="ListaItemsAdmin">
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:ADDcamisetas' %}"><i
+                                class="bi bi-folder-plus px-2"></i>Camisetas</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:AllVentasURL' %}"><i
+                                class="bi bi-file-earmark-bar-graph px-2"></i>Ventas</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:AddDatos' %}"><i class="bi bi-database-add px-2"></i>Agregar
+                            Datos</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:CodPromUrl' %}"><i class="bi bi-upc-scan px-2"></i>Códigos
+                            Promocionales</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container PanelAdminViews col-lg-9 col-md-12">
+            <div class="AccesoDirectoAdmin row">
+                <div class="container ItemsAcceso col-lg-3">
+                    <div class="ItemsIco">
+                        <h1><i class="bi bi-cash-coin"></i></h1>
                     </div>
-                    <div class="container exit d-flex" style="justify-content:end;">
-                        <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}"><i
-                                class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesion</i></a>
+                    <div class="ItemsTitle">
+                        <a href="">Ventas Semanales</a>
                     </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Administración de Camisetas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Publicación de Camiseta</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ViewsAdmin:AllVentasURL' %}">Reporte de Ventas</a>
-                            </li>
-                        </ul>
+                </div>
+                <div class="container ItemsAcceso col-lg-3">
+                    <div class="ItemsIco">
+                        <h1><i class="bi bi-folder-plus "></i></h1>
+                    </div>
+                    <div class="ItemsTitle">
+                        <a href="{% url 'ViewsAdmin:ADDcamisetas' %}">Agregar Camisetas</a>
+                    </div>
+                </div>
+                <div class="container ItemsAcceso col-lg-3 d-none d-lg-block d-md-block">
+                    <div class="ItemsIco">
+                        <h1><i class="bi bi-megaphone"></i></h1>
+                    </div>
+                    <div class="ItemsTitle">
+                        <a href="">Alertas</a>
                     </div>
                 </div>
             </div>
-        </nav>
-    </div>
-
-    <div class="conteAdmin" style="display: grid; place-items: center;">
-        {% block content %}
-        <div class="container d-flex row">
-
-            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
-                <a href="{% url 'ViewsAdmin:ADDcamisetas' %}">
-                    <img src="{% static 'imagenes/ADMINcamisetas.jpeg' %}" alt="">
-                    <h2 class="ItemTitle">Administración de camisetas</h2>
-                </a>
-            </div>
-
-            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
-                <a href="{% url 'ViewsAdmin:AllVentasURL' %}">
-                    <img src="{% static 'imagenes/REPORTimgg.jpeg' %}" alt="">
-                    <h2 class="ItemTitle">Reporte de ventas</h2>
-                </a>
-            </div>
-
-            <div class="container col-lg-6 py-3" style="position: relative; text-align: center;">
-                <a href="{% url 'ViewsAdmin:CodPromUrl' %}">
-                    <img src="{% static 'imagenes/codigosImgg.jpeg' %}" alt="">
-                    <h2 class="ItemTitle">Códigos promocionales</h2>
-                </a>
-            </div>
-
-            <div class="container col-lg-12 py-3" style="position: relative; text-align: center;">
-                <a href="{% url 'ViewsAdmin:AddDatos' %}">
-                    <img src="{% static 'imagenes/agregar-datos.jpeg' %}" alt="">
-                    <h2 class="ItemTitle"><strong>Agregar:</strong>Marcas, Ligas, Equipos</h2>
-                </a>
+            <div class="row">
+                <div class="container PanelViews col-12">
+                    <div class="row gy-3 text-center">
+                        <div class="col-sm-6 col-md-8 bg-warning"><img src="{% static 'imagenes/image.png'%}" width="250px"></div>
+                        <div class="col-6 col-md-4  bg-secondary"><img src="{% static 'imagenes/image.png'%}" width="250px"></div>
+                        <div class="col-6 col-md-4  bg-secondary"><img src="{% static 'imagenes/image.png'%}" width="250px"></div>
+                        <div class="col-sm-6 col-md-8 bg-warning"><img src="{% static 'imagenes/image.png'%}" width="250px"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        {% endblock %}
     </div>
+    <script src="{% static 'js/Principal.js' %}"></script>
 </body>
 
 </html>

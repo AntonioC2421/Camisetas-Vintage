@@ -1,65 +1,75 @@
 {% extends 'TemplatesClientes/MainCliente/IndexCliente.html' %}
 {% load static %}
 {% block content %}
+
 <head>
     <link rel="stylesheet" href="{% static 'css/ViewCamisetas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/IndexCliente.css' %}">
 </head>
-<div class="container MenúIzqu">
 
-    <div class="container subtit">
-        <h4>TEAMS</h4>
+<body>
+    <div class="container MenúIzqu">
+
+        <div class="container subtit">
+            <h4>TEAMS</h4>
+        </div>
+
+        <div class="container p-3">
+            {% if equi %}
+            <p><a href="{% url 'ViewsClient:ViewsCamiset' idn %}">ALL</a></p>
+            {% for team in equi %}
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="text-align: left;">
+                    <a href="{% url 'ViewsClient:ViewsCamisetTeam' idn team.id %}">{{ team.name }}</a>
+                </li>
+            </ul>
+            {% endfor %}
+            {% else %}
+            <div class="container bg-info aviso">
+                <p><i class="bi bi-info-square px-2"></i><i>Equipos no encontrados</i></p>
+            </div>
+            {% endif %}
+        </div>
     </div>
 
-    <div class="container p-3">
+    <div class="container MenúDere">
+        <div class="all">
+            <h4>ALL</h4>
+            {% for i in equi %}
+            {% if selected_team_id == i.id%}
+            <p><i>({{i.name}})</i></p>
+            {% endif %}
+            {% endfor %}
+        </div>
 
-        {% if equi %}
-        <p><a href="{% url 'ViewsClient:ViewsCamiset' idn %}">ALL</a></p>
-        {% for team in equi %}
-        <ul style="list-style: none; padding-left: 0;">
-            <li style="text-align: left;">
-                <a href="{% url 'ViewsClient:ViewsCamisetTeam' idn team.id %}">{{ team.name }}</a>
-            </li>
-        </ul>
-        {% endfor %}
-        {% else %}
+        {% if camis %}
+        <div class="row cartas">
+            {% for cam in camis %}
+            <div class="col-lg-4 col-6 my-2" style="display: flex; justify-content: center; align-items: center;">
+                <div class="cardss"
+                    style="background-image: url('{{ cam.img.url }}'); background-size: cover; background-position: center;">
+                    {% if not cam.img %}
+                    <div class="image">
+                        <img src="{% static 'imagenes/eror.jpg' %}" class="card-img-top" width="190px">
+                    </div>
+                    {% endif %}
+                    <div class="cardss-body">
+                        <h5 class="cardss-title"><a href="{% url 'ViewsClient:DetalleCamiseta' cam.id %}">{{ cam.name}}</a></h5>
+                        <p class="cardss-text"><b>$ {{ cam.precio|floatformat:0 }}</b></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if not encontrado %}
         <div class="container bg-info aviso">
-            <p><i class="bi bi-info-square px-2"></i><i>Equipos no encontrados</i></p>
+            <p><i class="bi bi-info-square px-2"></i><i>Camisetas no encontradas</i></p>
         </div>
         {% endif %}
-
-    </div>
-</div>
-
-<div class="container MenúDere row">
-
-    <div class="container all">
-        <h4>ALL</h4>
-        {% for i in equi %}
-        {% if selected_team_id == i.id%}
-        <p><i>({{i.name}})</i></p>
-        {% endif %}
-        {% endfor %}
     </div>
 
-    {% if camis %}
-    {% for cam in camis %}
-    <div class="cards col-lg-6 pb-4">
-        <div class="container imgcards">
-            <img src="{{ cam.img.url }}">
-        </div>
-        <div class="descricards container">
-            <h6><a href="{% url 'ViewsClient:DetalleCamiseta' cam.id %}">{{cam.name}}</a></h6>
-            <h6>$ {{ cam.precio|floatformat:0 }}</h6>
-        </div>
-    </div>
-    {% endfor %}
-    {% endif %}
+</body>
 
-    {% if not encontrado %}
-    <div class="container bg-info aviso">
-        <p><i class="bi bi-info-square px-2"></i><i>Camisetas no encontradas</i></p>
-    </div>
-    {% endif %}
-
-</div>
 {% endblock %}

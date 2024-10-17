@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('desde el JS De INDEX CLIENTE');
-    const prev = document.querySelector('.prev');
-    const next = document.querySelector('.next');
-    const slider = document.querySelector('.slider');
 
+    const prev = document.querySelector('.carousel-control-prev'); // Seleccionamos el botón "prev"
+    const next = document.querySelector('.carousel-control-next'); // Seleccionamos el botón "next"
+    const slider = document.querySelector('.carousel-inner'); // Seleccionamos el contenedor de los items
+    // Agregar evento al botón "prev"
     prev.addEventListener('click', () => {
-        slider.scrollLeft -= 300;
+        slider.scrollLeft -= 550;
     });
 
+    // Agregar evento al botón "next"
     next.addEventListener('click', () => {
-        slider.scrollLeft += 300;
+        slider.scrollLeft += 550;
     });
-
-    
 });
 
 function toggleBusqueda() {

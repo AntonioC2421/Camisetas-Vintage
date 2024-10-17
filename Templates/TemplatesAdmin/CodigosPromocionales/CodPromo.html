@@ -13,59 +13,68 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <title>ViewAdmin</title>
-    <link rel="stylesheet" href="{% static 'css/Principal.css' %}">
-    <link rel="stylesheet" href="{% static 'css/Overlay-Ventana.css' %}">
+
+    <title>CodPromocionales</title>
+    <link rel="stylesheet" href="{% static 'css/CodPromo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/StyleNav.css' %}">
 </head>
 
 <body>
-    <div class="principalAdmin ">
-        <nav class="navbar fixed-top"
-            style="background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(163, 163, 163);">
-            <div class="container-fluid">
-                <a href="{% url 'ViewsAdmin:PrincipalAdmin' %}">
-                    <img class="navbar-brand" src="{% static 'imagenes/RetroNfondo.png' %}" alt="Retro">
-                </a>
+    <nav class="navbar">
+        <div class="navbarButton">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation"
+                id="hamburger-btn">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbarIco">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'imagenes/RetroNfondo.png' %}" alt="Logo" width="70px">
+            </a>
+        </div>
+    </nav>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end text-bg-dark py-4" tabindex="-1" id="offcanvasDarkNavbar"
-                    aria-labelledby="offcanvasDarkNavbarLabel">
-                    <div class="offcanvas-header">
-                        <div class="container d-flex row  offcanvas-title" id="offcanvasDarkNavbarLabel"
-                            style="justify-content: center; align-items: center;">
-                            <img class="col-6" src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="100px">
-                            <h4 class="col-6" style="font-family: monospace;"><strong>Antonio Cotrina</strong></h4>
-                        </div>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="container exit d-flex" style="justify-content:end;">
-                        <a style="text-decoration: none; color: aliceblue;" href="{% url 'ViewsAdmin:exit' %}"><i
-                                class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesion</i></a>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Administración de Camisetas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Publicación de Camiseta</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Reporte de Ventas</a>
-                            </li>
-                        </ul>
-                    </div>
+    <div class="offcanvas offcanvas-start  py-4" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-body">
+            <div class="DateLogin">
+                <div class="container ConteImgAdmin">
+                    <img src="{% static 'imagenes/loginP.png' %}" alt="ImgPerfil" width="70px">
+                </div>
+                <div class="container NameUser">
+                    <h4>{{user}}</h4>
                 </div>
             </div>
-        </nav>
+            <div class="container exit d-flex" style="justify-content:end;">
+                <a style="text-decoration: none;" href="{% url 'ViewsAdmin:exit' %}"><i
+                        class="bi bi-box-arrow-right px-2"></i><i>Cerrar sesión</i></a>
+            </div>
+            <hr>
+            <div class="ItemsAdmin">
+                <ul class="ListaItemsAdmin">
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:ADDcamisetas' %}"><i
+                                class="bi bi-folder-plus px-2"></i>Camisetas</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:AllVentasURL' %}"><i
+                                class="bi bi-file-earmark-bar-graph px-2"></i>Ventas</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:AddDatos' %}"><i class="bi bi-database-add px-2"></i>Agregar
+                            Datos</a>
+                    </li>
+                    <li class="Items">
+                        <a href="{% url 'ViewsAdmin:CodPromUrl' %}"><i class="bi bi-upc-scan px-2"></i>Códigos
+                            Promocionales</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="conteAdmin" style="display: grid; place-items: center;">
+
+    <div class="conteAdmin">
         <div class="container-fluid divcodpromo">
             <div style="display: flex; justify-content: end; align-items: end;">
                 <a href="{% url 'ViewsAdmin:PrincipalAdmin' %}" type="button" class="btn-close" aria-label="Close"></a>
@@ -73,7 +82,6 @@
             <h1 style="text-align: center;">CÓDIGOS PROMOCIONALES</h1>
             <div class="d-flex">
                 <div class="container" style="width: 30%;">
-
                     {% block content %}
                     <h3 style="text-align: center;">CREAR CÓDIGOS</h3>
                     <form action="" method="post">
@@ -104,12 +112,14 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-danger">
-                                        <a style="color: aliceblue;" href="{% url 'ViewsAdmin:deletecod' i.id %}"><i class="bi bi-trash3"></i></a>
+                                        <a style="color: aliceblue;" href="{% url 'ViewsAdmin:deletecod' i.id %}"><i
+                                                class="bi bi-trash3"></i></a>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary">
-                                        <a style="color: aliceblue;" href="{% url 'ViewsAdmin:ChangeInfoCod' i.id %}"><i class="bi bi-pen"></i></a>
+                                        <a style="color: aliceblue;" href="{% url 'ViewsAdmin:ChangeInfoCod' i.id %}"><i
+                                                class="bi bi-pen"></i></a>
                                     </button>
                                 </li>
                             </ul>

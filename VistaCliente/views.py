@@ -1,32 +1,17 @@
 from django.shortcuts import render
 from VistaAdmin.models import *
 from django.core.serializers import serialize
-from django.db.models import Q #Consultas para la barra de busqueda
+from django.db.models import Q
 from VistaAdmin.models import *
 from django.http import JsonResponse
 from VistaAdmin.forms import *
 import json
 
 def MainPrincipalCliente(request):
-    Equipo = Teams.objects.all().order_by('-id')[0:8]
+    Equipo = Teams.objects.all().order_by('-id')[0:10]
     imgTeam = TeamsImgs.objects.all()
     imgTeam_serialized = serialize('json', imgTeam)
-    
-    if request.user.is_authenticated:  # Verifica si el usuario está autenticado
-        if request.user.is_staff:
-            items_cart = []
-            data = {'equipos': Equipo, 'imgTeam': imgTeam_serialized}
-        else:
-            # Obtén el cliente relacionado con el usuario logueado
-            cliente = Model_Client.objects.get(user=request.user)
-            user_name = cliente.nombre
-            user_rut = cliente.rut
-            # Filtra los items del carrito por el cliente logueado
-            items_cart = Model_shopping_cart.objects.filter(id_cliente=cliente)
-            data = {'users': user_name ,'equipos': Equipo, 'imgTeam': imgTeam_serialized, 'datosItems': items_cart, 'user_rut':user_rut}
-    else:
-        data = {'equipos': Equipo, 'imgTeam': imgTeam_serialized}
-
+    data = {'equipos': Equipo, 'imgTeam': imgTeam_serialized}
     return render(request, './TemplatesClientes/MainCliente/IndexCliente.html', data)
 
 def ViewItemsCart(request):

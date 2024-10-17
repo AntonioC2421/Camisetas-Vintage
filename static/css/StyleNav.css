@@ -1,0 +1,69 @@
+:root {
+    --Primary-color: rgb(0, 100, 158);
+    --Secondary-color: rgb(255, 255, 255);
+}
+
+* {
+    font-family: monospace;
+    box-sizing: border-box; 
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    background-color: var(--Primary-color);
+}
+
+.navbarButton{
+    width: 10%;
+    padding-inline: 10px;
+}
+
+.navbar .p-2{
+    color: var(--Secondary-color);
+}
+
+.navbarIco{
+    width: 90%; 
+    display: flex; 
+    justify-content: center;
+}
+
+#offcanvasDarkNavbar {
+    z-index: 1050;
+    width: 300px;
+    background-color:rgb(247, 247, 247);
+}
+
+.DateLogin {
+    margin: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.DateLogin .NameUser {
+    text-align: justify;
+    color: black;
+}
+
+.ConteImgAdmin {
+    display: grid; 
+    place-content: center;
+}
+
+.ItemsAdmin .ListaItemsAdmin {
+    list-style: none;
+}
+
+.ItemsAdmin .ListaItemsAdmin .Items {
+    margin-block: 5px;
+    padding: 8px;
+}
+
+.ItemsAdmin .ListaItemsAdmin .Items a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}

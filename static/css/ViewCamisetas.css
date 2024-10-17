@@ -1,44 +1,83 @@
-.MenúIzqu{
+:root {
+    --Primary-color: rgb(0, 100, 158);
+    --Secondary-color: rgb(255, 255, 255);
+    --Border-color: rgba(226, 226, 226, 0.295);
+}
+
+.MenúIzqu {
     width: 25%;
     border-right: solid rgba(122, 122, 122, 0.26) 1px;
+    margin-block: 0.3em;
 }
-.subtit{
+
+.subtit {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 4px;
 }
-.MenúDere{
+
+.MenúDere {
     width: 75%;
+
 }
 
-.MenúDere .all{
-    display: block; text-align: center;
-}
-
-.cards .imgcards{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.cards .imgcards img {
-    height: 380px; width: 360px;
-}
-
-.cards .descricards {
-    font-size: 20px;
+.MenúDere .all {
+    display: block;
     text-align: center;
-    padding: 3px
 }
 
-.aviso{
+.aviso {
     border-radius: 5px;
     align-content: center;
     display: block;
     height: 50px;
 }
 
-.aviso p{
+.aviso p {
     margin: auto;
+}
+
+@media (max-width: 992px) {
+    .MenúIzqu {
+        display: none;
+    }
+
+    .MenúDere {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 390px) {
+    .MenúIzqu {
+        display: none;
+    }
+
+    .MenúDere {
+        margin-top: 3em;
+        width: 100%;
+    }
+}
+
+/* From Uiverse.io by andrew-demchenk0 */
+.cardss {
+    --font-color: #323232;
+    --font-color-sub: #666;
+    --bg-color: #fff;
+    --main-color: #323232;
+    width: 15rem;
+    height: 18rem;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    border-radius: 5px;
+    background-size: contain;
+    background-position: center;
+}
+
+.cardss .cardss-body{
+    padding: 0.3em;
+    background-color: rgba(221, 221, 221, 0.205);
+    position: relative;
+    top: 60%;
 }

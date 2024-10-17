@@ -1,12 +1,51 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Informe Ventas</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/InformeVentas.css' %}">
 </head>
+
 <body>
-    <h1>Ventas</h1>
-    <p>{{All_ventas}}</p>
+    <header>
+        <h5>Informe de ventas</h5>
+    </header>
+
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Equipo</th>
+                    <th scope="col">Camiseta</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">RUN Cliente</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Factura</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in All_ventas %}
+                <tr>
+                    <th scope="row">{{venta.items_cart.id_SubCategoria.name}}</th>
+                    <td>{{venta.items_cart.name}}</td>
+                    <td>$ {{venta.items_cart.precio}}</td>
+                    <td>{{venta.rut_cliente.rut}}</td>
+                    <td>{{ venta.fecha_venta|date:"d/m/y" }}</td>
+                    <td><a class="icoFact bi bi-file-earmark-pdf-fill" href=""/></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

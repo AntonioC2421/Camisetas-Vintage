@@ -1,3 +1,5 @@
+
+
 // Obtener el token CSRF desde la cookie
 function getCookie(name) {
     let cookieValue = null;

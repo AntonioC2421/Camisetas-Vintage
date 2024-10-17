@@ -1,0 +1,5 @@
+.conteAdmin{
+    padding-block: 10px;
+    display: grid; 
+    place-items: center;
+}
