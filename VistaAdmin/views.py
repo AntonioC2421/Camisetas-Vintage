@@ -8,26 +8,16 @@ from django.views import View
 from django.http import JsonResponse
 from django.utils import timezone
 
-def View_Ventas(request):
-    ventas = Model_Venta.objects.all()
-    data = {
-        'All_ventas': ventas
-    }
-    return render(request, './TemplatesAdmin/Informe/InformeVentas.html', data)
-
-# Decorador para verificar si el usuario es admin
 def admin_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         if request.user.is_authenticated and request.user.is_staff:
             return view_func(request, *args, **kwargs)
         else:
-            # Redirige a la vista deseada sin el parámetro next
-            return redirect('ViewsClient:MainPrincipalCliente')  # Cambia esto a la vista que desees
+            return redirect('ViewsClient:MainPrincipalCliente')
     return _wrapped_view
 
 @login_required
 def redirigir_usuario(request): #redirigir según usuario
-    
         if request.user.is_staff and request.user.is_active:
             return redirect('ViewsAdmin:PrincipalAdmin')  # Vista del administrador
         elif not request.user.is_staff and request.user.is_active:
@@ -38,7 +28,7 @@ def is_admin(user): #Verificar si es Admin o Cliente
 
 #Pagina Principal de el Admin
 @login_required
-@admin_required  # Usa el decorador aquí
+@admin_required
 def MainPrincipal(request):
     return render(request, './TemplatesAdmin/Principal/Principal.html')
 
@@ -60,52 +50,6 @@ def ADDcamisetas(request):
 
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDcamisetas.html', data)
 
-
-@login_required
-def AddItemCart(request):
-    if request.method == 'POST':
-        # Capturamos manualmente los valores desde request.POST
-        user_id = request.POST.get('user_id')
-        item_id = request.POST.get('item_id')
-        timestamp = request.POST.get('timestamp')
-
-        # Verifica que los datos no sean nulos
-        if user_id and item_id and timestamp:
-            # Convertir a int y manejar excepciones
-            try:
-                user_id = int(user_id)
-                item_id = int(item_id)
-                timestamp = timezone.datetime.fromisoformat(timestamp)  # Convertir a DateTime
-            except (ValueError, TypeError):
-                return JsonResponse({'success': False, 'message': 'Datos de ID inválidos'})
-
-            # Verificar existencia de cliente y equipo
-            try:
-                client = Model_Client.objects.get(user__id=user_id)
-                team = Teams.objects.get(id=item_id)
-            except Model_Client.DoesNotExist:
-                return JsonResponse({'success': False, 'message': 'El cliente no existe'})
-            except Teams.DoesNotExist:
-                return JsonResponse({'success': False, 'message': 'El equipo no existe'})
-
-            # Crear el formulario con los datos
-            form_data = {
-                'id_cliente': client.id,  # Usar el ID del cliente
-                'id_Teams': team.id,      # Usar el ID del equipo
-                'fecha': timestamp         # Asignar la fecha
-            }
-            form = FormAddItemCart(data=form_data)  # Crear formulario con datos
-
-            # Verifica si el formulario es válido
-            if form.is_valid():
-                form.save()  # Guardar el objeto en la base de datos
-                return JsonResponse({'success': True, 'message': 'Item agregado correctamente'})
-            else:
-                print("Errores del formulario:", form.errors)  # Imprimir errores de validación
-                return JsonResponse({'success': False, 'message': 'Datos no válidos', 'errors': form.errors})
-        else:
-            return JsonResponse({'success': False, 'message': 'Faltan datos requeridos'})
-
 def ADDimgCamiseta(request, id):
     team = Teams.objects.get(id=id)
     addimgform = ADDimgCamisetas()
@@ -124,7 +68,6 @@ def ADDimgCamiseta(request, id):
     }
     
     return render(request, './TemplatesAdmin/ADDcamisetas/ADDimgCamisetas.html',data)
-
 
 def DeleteImg(request, img_id):
     img = TeamsImgs.objects.get(id=img_id)
@@ -325,6 +268,73 @@ def ViewsAddCliente(request):
 
     data = {'formAddCliente': form}
     return render(request, './authentication/CreateUser.html', data)
+
+@login_required
+def AddItemCart(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        # Capturamos manualmente los valores desde request.POST
+        user_id = request.POST.get('user_id')
+        item_id = request.POST.get('item_id')
+        timestamp = request.POST.get('timestamp')
+
+        # Verifica que los datos no sean nulos
+        if not user_id or not item_id or not timestamp:
+            return JsonResponse({'success': False, 'message': 'Faltan datos requeridos'})
+
+        # Convertir a int y manejar excepciones
+        try:
+            user_id = int(user_id)
+            item_id = int(item_id)
+            timestamp = timezone.datetime.fromisoformat(timestamp)  # Convertir a DateTime
+        except (ValueError, TypeError):
+            return JsonResponse({'success': False, 'message': 'Datos de ID o timestamp inválidos'})
+
+        try:
+            client = Model_Client.objects.get(user__id=user_id)
+        except Model_Client.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'El cliente no existe'})
+
+        try:
+            team = Teams.objects.get(id=item_id)
+        except Teams.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'El equipo no existe'})
+
+        form_data = {
+            'id_cliente': client.id,
+            'id_Teams': team.id,
+            'fecha': timestamp
+        }
+        form = FormAddItemCart(data=form_data)
+
+        if form.is_valid():
+            new_item = form.save() 
+            return JsonResponse({
+                'success': True,
+                'message': 'Item agregado correctamente',
+                'item': {
+                    'id': team.id,
+                    'name': team.name,
+                    'precio': team.precio,
+                    'equipo': team.id_SubCategoria.name,
+                    'marca': team.id_Marca.name,
+                    'Id_Registro':new_item.id,
+                    'img_Team': team.img.url,
+                    'year':team.year,
+                },
+            })
+        else:
+            print("Errores del formulario:", form.errors)
+            return JsonResponse({'success': False, 'message': 'Datos no válidos', 'errors': form.errors})
+
+    return JsonResponse({'success': False, 'message': 'Método no permitido o usuario no autenticado'})
+
+#sección INFORME VENTA
+def View_Ventas(request):
+    ventas = Model_Venta.objects.all()
+    data = {
+        'All_ventas': ventas
+    }
+    return render(request, './TemplatesAdmin/Informe/InformeVentas.html', data)
 
 #Deslogueo
 def exit(request):

@@ -25,7 +25,6 @@
     <div class="conteMain">
         <header>
             <h6 class="p-2">El rincón de lo Vintage</h6>
-            </button>
         </header>
         <div class="container-fluid ImgAndOption d-flex">
             <div class="container d-flex icoRetro">
@@ -38,9 +37,8 @@
                     <a href="{% url 'ViewsAdmin:redirigir_usuario' %}">Cuenta</a>
                     <a type="button" onclick="toggleBusqueda()">Busqueda</a>
                     {% if user.is_authenticated %}
-                    <a href="" data-bs-toggle="offcanvas" data-bs-target="#miOffcanvas"
+                    <a id="MainBtnCart" href="#" data-bs-toggle="offcanvas" data-bs-target="#miOffcanvas"
                         aria-controls="miOffcanvas">Carro</a>
-
                     <!-- Contenido del offcanvas -->
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="miOffcanvas"
                         aria-labelledby="miOffcanvasLabel">
@@ -61,86 +59,73 @@
 
                         <div class="offcanvas-body m-2">
                             <div id="ContentCarro" style="display: block;">
-                                {% if datosItems %}
-                                {% for i in datosItems %}
-                                <div class="cards m-2">
-                                    <h5 class="card-header" style="text-align: center;">{{ i.id_Teams.name }}</h5>
-                                    <hr>
-                                    <div class="card-body d-flex" id="Item-{{ i.id }}">
-                                        <div class="d-grid gap-2 m-2" style="width: 50%;">
-                                            <img src="{{ i.id_Teams.img.url }}" width="100%">
-                                            <button class="btn btn-primary delete-item" type="button"
-                                                data-id="{{ i.id }}">Quitar</button>
-                                        </div>
-                                        <div class="p-2" style="width: 50%;">
-                                            <p><strong>Año:</strong> {{ i.id_Teams.year }}</p>
-                                            <p><strong>$</strong> {{ i.id_Teams.precio }}</p>
-                                            <input type="hidden" class="precioItemCart" value="{{ i.id_Teams.precio }}">
-                                            <p><strong>Equipo:</strong> {{ i.id_Teams.id_SubCategoria.name }}</p>
-                                            <input type="hidden" class="EquipoItemCart" value="{{ i.id_Teams }}">
-                                            <p><strong>Talla:</strong> {{ i.id_Teams.id_Size.name }}</p>
-                                            <p><strong>Marca:</strong> {{ i.id_Teams.id_Marca.name }}</p>
+                                <div id="cardsContainer">
+                                    {% for item in datosItems %}
+                                    <div class="cards m-2">
+                                        <p class="card-header" style="text-align: center;">{{ item.id_Teams.name }}</p>
+                                        <hr>
+                                        <div class="card-body d-flex" id="Item-{{ item.id }}">
+                                            <div class="d-grid gap-2 m-2" style="width: 50%;">
+                                                <img src="{{ item.id_Teams.img.url }}" width="100%">
+                                                <button class="btn btn-primary delete-item" type="button"
+                                                    data-id="{{ item.id }}">Quitar</button>
+                                            </div>
+                                            <div class="p-2" style="width: 50%;">
+                                                <p><strong>$</strong> {{ item.id_Teams.precio }}</p>
+                                                <input type="hidden" class="precioItemCart"
+                                                    value="{{ item.id_Teams.precio }}">
+                                                <p><strong>Equipo:</strong> {{ item.id_Teams.id_SubCategoria.name }}</p>
+                                                <p><strong>Año:</strong> {{ item.id_Teams.year }}</p>
+                                                <input type="hidden" class="EquipoItemCart"
+                                                    value="{{ item.id_Teams.id_SubCategoria.name }}">
+                                                <p><strong>Marca:</strong> {{ item.id_Teams.id_Marca.name }}</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
-                                <table class="table table-bordered">
-                                    <thead class=".table-bordered">
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Precio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span id="NombresIndividuales"></span>
-                                            </td>
-                                            <td>
-                                                <span id="PreciosIndividuales"></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>Precio Total:</strong>
-                                            </td>
-                                            <td>
-                                                $ <span id="totalPrecio">0</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                {% else %}
-                                <p>no hay items</p>
-                                {% endif %}
-
-                                <form id="promoForm">
-                                    <div class="input-group input-group-sm mb-3">
-                                        <input id="inputCodPromo" type="text" class="form-control"
-                                            placeholder="Código promocional" aria-label="Sizing example input"
-                                            aria-describedby="inputGroup-sizing-sm">
-                                        <button type="submit" id="inputGroup-sizing-sm"
-                                            class="input-group-text">Canjear</button>
-                                    </div>
-                                </form>
-                                <!--Mensaje de exito o error-->
-                                <div id="successMessages"></div>
-
-                                <div id="containepreciodescuento" style="display: none;">
-                                    <table class="table table-bordered">
-                                        <tbody>
+                                <div id="tablaResumen">
+                                    <table id="TableDatosCart" class="table table-bordered">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <strong>Precio Descuento: </strong>
-                                                </td>
-                                                <td>
-                                                    $ <span id="PrecioConDescuento">0</span>
-                                                </td>
+                                                <th>Nombre</th>
+                                                <th>Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bg-warning">
+                                                <td><span id="NombresIndividuales"></span></td>
+                                                <td><span id="PreciosIndividuales"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Precio Total:</strong></td>
+                                                <td>$ <span id="totalPrecio">0</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
+                                <div class="formcodigo">
+                                    <form id="promoForm">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <input id="inputCodPromo" type="text" class="form-control"
+                                                placeholder="Código promocional" aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-sm">
+                                            <button type="submit" id="inputGroup-sizing-sm"
+                                                class="input-group-text">Canjear</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="successMessages"></div>
+                                <div id="containepreciodescuento" style="display: none;">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Precio Descuento: </strong></td>
+                                                <td>$ <span id="PrecioConDescuento">0</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <form method="POST" id="FormAddVenta">
                                     {% csrf_token %}
                                     <input type="hidden" id="inputRutCliente" value="{{user_rut}}">
@@ -149,14 +134,11 @@
                                         <span style="color: aliceblue;">Comprar</span>
                                     </button>
                                 </form>
-
                             </div>
-
                             <div class="container" id="ContentCarrroPedidos" style="display: none;">
                                 Pedidos realizados por el cliente
                                 <!--Obtener items comprados-->
                             </div>
-
                         </div>
                     </div>
                     {% endif %}
@@ -186,7 +168,6 @@
                 <p>No se encuentra ninguna</p>
                 {% endif %}
             </div>
-
             <div class="btn-group" role="group" style="width:100%;">
                 <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Ligas

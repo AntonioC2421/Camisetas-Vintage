@@ -69,7 +69,7 @@ class Model_shopping_cart(models.Model):
     id_cliente = models.ForeignKey(Model_Client,on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Cliente: {self.id_cliente.name}, Item: {self.id_Teams.name}'
+        return f'Cliente: {self.id_cliente}, Item: {self.id_Teams}'
 
 class Model_Venta(models.Model):
     items_cart = models.ForeignKey(Teams, on_delete=models.CASCADE)

@@ -3,7 +3,6 @@
 {% block content %}
 {% if deta %}
 {%for i in deta %}
-
 <div class="container" style="width: 20%; display: grid; place-items: center;">
     {% for e in imgs %}
     <img src="{{ e.imagen.url }}" style="width: 170px; padding: 10px;">
@@ -22,12 +21,13 @@
         <p>{{i.id_SubCategoria}}</p>
         <p>{{i.year}}</p>
         <p>{{i.id_Marca}}</p>
-        
+
         <form id="addItemCartForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" id="userId" name="user_id" value="{{ user.id }}">
             <input type="hidden" id="itemId" name="item_id" value="{{ i.id }}">
-            <input type="hidden" id="timestamp" name="timestamp" value="">
+            <input type="hidden" id="timestamp" name="timestamp">
+
             <button id="addToCartButtonn" type="submit" class="container"
                 style="border: 2px solid black; text-align: center; align-content: center; display: block; padding: 7px; background-color: rgb(15, 48, 77);">
                 <span style="color: aliceblue;">ADD TO CART</span>
@@ -37,7 +37,6 @@
     </div>
     <input type="hidden" id="addItemCart-url" value="{% url 'ViewsAdmin:AddItemsCart'%}">
 </div>
-
 {% endfor %}
 {% endif %}
 {% endblock %}

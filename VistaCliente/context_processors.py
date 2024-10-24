@@ -1,6 +1,5 @@
 from VistaAdmin.models import Categorias, Teams, SubCategoria
 from VistaAdmin.forms import *
-from django.core.serializers import serialize
 
 #Estas variables se configuran en Settings para que sepuedan usar en cualquier template
 def categorias_disponibles(request):
@@ -44,15 +43,21 @@ def subcategorias_disponibles(request):
         }
 
 def ItemsCardUser(request):
-    if request.user.is_authenticated:  # Verifica si el usuario está autenticado    
-        cliente = Model_Client.objects.get(user=request.user)
-        user_name = cliente.nombre
-        user_rut = cliente.rut
-        # Filtrar los items del carrito por el cliente logueado
-        items_cart = Model_shopping_cart.objects.filter(id_cliente=cliente)
+    context = {
+        'users': None,
+        'user_rut': None,
+        'datosItems': []
+    }
 
-        return {
-            'users': user_name,
-            'datosItems': items_cart,
-            'user_rut': user_rut
-        }    
+    if request.user.is_authenticated:
+        try:
+            cliente = Model_Client.objects.get(user=request.user)
+            context['users'] = cliente.nombre
+            context['user_rut'] = cliente.rut
+            
+            context['datosItems'] = Model_shopping_cart.objects.filter(id_cliente=cliente)
+        except Model_Client.DoesNotExist:
+            
+            pass
+
+    return context
